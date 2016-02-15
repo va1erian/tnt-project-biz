@@ -62,7 +62,6 @@ public class CalculatorService {
     public int add(@WebParam(name = "x")int x, @WebParam(name = "y")int y)
         throws NegativeNumberException {
 
-        getServletContext().log("Parameters: x="+x+", y="+y);
         if (x < 0) {
             throw new NegativeNumberException("x is less then zero");
         } else if (y < 0) {
@@ -70,27 +69,6 @@ public class CalculatorService {
         } else {
             return x+y;
         }
-    }
-
-    /** Used for server logging.
-     *  The operation is oneway: provides no response
-     *
-     * @param text
-     */
-    @WebMethod(operationName = "log")
-    @Oneway
-    public void logServer(@WebParam(name = "message") String text) {
-        // log message onto server
-        getServletContext().log(text);
-    }
-
-    /** Get ServletContext.
-     *
-     * @return ServletContext object
-     */
-    private ServletContext getServletContext() {
-        return (ServletContext) webServiceContext.getMessageContext().get(
-                MessageContext.SERVLET_CONTEXT);
     }
 
 }
