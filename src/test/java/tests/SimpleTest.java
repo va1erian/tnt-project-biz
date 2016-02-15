@@ -30,6 +30,11 @@ public class SimpleTest {
         assertEquals(6, s.add(4, 2));
         assertEquals(1, s.add(1, 0));
     }
+   
+    @Test(expected = NegativeNumberException.class)
+    public void testNegative() throws NegativeNumberException {
+        s.add(-2, -2);
+    }
     // TODO add test methods here.
     // The methods must be annotated with annotation @Test. For example:
     //
