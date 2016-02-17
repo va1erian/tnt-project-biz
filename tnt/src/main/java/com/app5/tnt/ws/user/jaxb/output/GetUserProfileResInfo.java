@@ -20,7 +20,7 @@ import com.app5.tnt.ws.adapter.DateAdapter;
     "email",
     "password"
 })
-@XmlRootElement(name="")
+@XmlRootElement(name="userProfile")
 public class GetUserProfileResInfo implements Serializable {
 	
 	private static final long serialVersionUID = 5028942651663831659L;
@@ -33,19 +33,6 @@ public class GetUserProfileResInfo implements Serializable {
 	private String password;
 	
 	public GetUserProfileResInfo() {
-		
-	}
-	
-	public GetUserProfileResInfo(String fn, String ln, 
-								 String bd, String g, String e, String p) throws Exception {
-		firstName = fn;
-		lastName = ln;
-		DateAdapter da = new DateAdapter();
-		birthDate = da.unmarshal(bd);
-		gender = g;
-		email = e;
-		password = p;
-		
 		
 	}
 	
