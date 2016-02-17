@@ -8,7 +8,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.app5.tnt.ws.login.jaxb.LoginUserInfo;
 import com.app5.tnt.ws.user.jaxb.output.GetUserProfileResInfo;
 
 @Path("/user")

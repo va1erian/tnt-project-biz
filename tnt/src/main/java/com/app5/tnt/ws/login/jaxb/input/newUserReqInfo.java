@@ -20,8 +20,8 @@ import com.app5.tnt.ws.adapter.DateAdapter;
     "email",
     "password"
 })
-@XmlRootElement(name="")
-public class CreateUserReqInfo implements Serializable {
+@XmlRootElement(name="newUser")
+public class newUserReqInfo implements Serializable {
 	
 	private static final long serialVersionUID = 5028942651663831659L;
 	private String firstName;
@@ -32,7 +32,7 @@ public class CreateUserReqInfo implements Serializable {
 	private String email;
 	private String password;
 	
-	public CreateUserReqInfo() {
+	public newUserReqInfo() {
 		
 	}
 	

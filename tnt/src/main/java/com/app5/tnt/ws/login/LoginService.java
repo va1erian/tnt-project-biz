@@ -10,7 +10,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.app5.tnt.ws.login.jaxb.LoginUserInfo;
-import com.app5.tnt.ws.login.jaxb.input.CreateUserReqInfo;
+import com.app5.tnt.ws.login.jaxb.input.newUserReqInfo;
+
 
 @Path("/login")
 public class LoginService {
@@ -29,7 +30,7 @@ public class LoginService {
 	@POST
 	@Produces("text/plain")
 	@Consumes("application/json")
-	public Response createUser(@FormParam("newUser") CreateUserReqInfo createUser) {
+	public Response createUser(@FormParam("newUser") newUserReqInfo newUser) {
 		try {
 			boolean isInDataBase = false;
 			// Check if user is in database
