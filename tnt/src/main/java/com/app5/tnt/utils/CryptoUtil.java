@@ -9,9 +9,17 @@ import java.security.SecureRandom;
 public class CryptoUtil {
 	
 	private static SecureRandom random = new SecureRandom();
-
+	private static String ALPHA_NUMERIC_STRING = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+	
 	public static String generateRandomString(int size) {
-		return new BigInteger(size, random).toString(32);
+		String randomString = new String();
+		
+		for(int i = 0; i < size; i++)
+		{
+			int randomNum = 1 + (int)(Math.random() * 62); 
+			randomString += ALPHA_NUMERIC_STRING.charAt(randomNum);
+		}
+		return randomString;
 	}
 	
 	public static byte[] crypt(String input) {
