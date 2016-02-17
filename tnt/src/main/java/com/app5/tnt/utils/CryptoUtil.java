@@ -16,17 +16,15 @@ public class CryptoUtil {
 		
 		for(int i = 0; i < size; i++)
 		{
-			int randomNum = 1 + (int)(Math.random() * 62); 
+			int randomNum = 0 + (int)(Math.random() * ALPHA_NUMERIC_STRING.length()); 
 			randomString += ALPHA_NUMERIC_STRING.charAt(randomNum);
 		}
 		return randomString;
 	}
 	
-	public static byte[] crypt(String input) {
+	public static byte[] cryptSHA256(String input) {
 		try {
-			MessageDigest digest;
-			digest = MessageDigest.getInstance("SHA-256");
-			return digest.digest(input.getBytes(StandardCharsets.UTF_8));
+			return MessageDigest.getInstance("SHA-256").digest(input.getBytes(StandardCharsets.UTF_8));
 		} catch (NoSuchAlgorithmException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
