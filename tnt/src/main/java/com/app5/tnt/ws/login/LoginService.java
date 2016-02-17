@@ -34,7 +34,7 @@ public class LoginService {
 			boolean isInDataBase = false;
 			// Check if user is in database
 			
-			if (!isInDataBase) {
+			if (isInDataBase) {
 				return Response.ok("{insert:true}", MediaType.TEXT_PLAIN).build();
 			}
 			else {
