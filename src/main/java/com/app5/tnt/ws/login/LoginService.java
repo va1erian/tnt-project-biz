@@ -33,13 +33,20 @@ public class LoginService {
 	public Response createUser(@FormParam("newUser") newUserReqInfo newUser) {
 		try {
 			boolean isInDataBase = false;
+			boolean validAccount = false;
+			
 			// Check if user is in database
 			
-			if (isInDataBase) {
-				return Response.ok("{insert:true}", MediaType.TEXT_PLAIN).build();
+			if(isInDataBase) {
+				return Response.ok("{result:0}", MediaType.TEXT_PLAIN).build();
 			}
 			else {
-				return Response.ok("{insert:false}", MediaType.TEXT_PLAIN).build();
+				if(validAccount) {
+					return Response.ok("{result:1}", MediaType.TEXT_PLAIN).build();
+				}
+				else {
+					return Response.ok("{result:2}", MediaType.TEXT_PLAIN).build();
+				}
 			}
 		}
 		catch(Exception e) {
