@@ -12,3 +12,6 @@
 hs_err_pid*
 /nbproject/
 /target/
+/.settings/
+.project
+.classpath
