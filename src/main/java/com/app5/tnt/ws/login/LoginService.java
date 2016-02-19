@@ -9,11 +9,14 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.app5.tnt.jpa.model.User;
+import com.app5.tnt.jpa.service.CommitOperation;
 import com.app5.tnt.jpa.service.Service;
+import com.app5.tnt.utils.CryptoUtil;
 import com.app5.tnt.utils.MailUtility;
 import com.app5.tnt.utils.NumericUtil;
 import com.app5.tnt.ws.adapter.DateAdapter;
@@ -31,8 +34,8 @@ public class LoginService {
 	private MailUtility mailUtility;;
 	
 	public LoginService() {
-		//service = new Service();
-		//mailUtility = new MailUtility();
+		service = new Service();
+		mailUtility = MailUtility.getInstance();
 	}
 	@GET
 	@Produces("application/json")
@@ -46,22 +49,22 @@ public class LoginService {
 	
 	@Path("/createUser")
 	@POST
-	@Produces("text/plain")
-	@Consumes("application/json")
+	@Produces(MediaType.TEXT_PLAIN)
+	@Consumes(MediaType.APPLICATION_JSON)
 	public Response createUser(@FormParam("input") NewUserReqInfo newUser) {
 		try {
 			boolean isInDataBase = false;
 			boolean validAccount = false;
-//			Map<String, Object> param = new HashMap<String, Object>();
-//			param.put(User.EmailParameterName, newUser.getEmail());
-//			User userInfo = service.getSingleResult(User.class, User.GetByEmailQueryName, param);
+			Map<String, Object> param = new HashMap<String, Object>();
+			param.put(User.EmailParameterName, newUser.getEmail());
+			User userInfo = service.getSingleResult(User.class, User.GetByEmailQueryName, param);
 			
 			// Check if the user is in database
-//			if(userInfo != null)
-//			{
-//				isInDataBase = true;
-//				validAccount = userInfo.getEmailValitated();
-//			}
+			if(userInfo != null)
+			{
+				isInDataBase = true;
+				validAccount = userInfo.isEmailValidated();
+			}
 			
 			// Check if the user is in database
 			if(isInDataBase) {
@@ -70,21 +73,42 @@ public class LoginService {
 					return Response.ok("{result:0}", MediaType.TEXT_PLAIN).build();
 				}
 				else {
-					
 					// Resend validation mail 
-//					mailUtility.sendEmail(MailUtility.INSCRIPTION_MAIL, userInfo.getEmail(), parametersValues);
+					Map<String, String> emailParams = new HashMap<String, String>();
+					emailParams.put("LASTNAME", userInfo.getLastName());
+					emailParams.put("FIRSTNAME", userInfo.getFirstName());
+					emailParams.put("EMAIL", userInfo.getEmail());
+					String confirmationUrl = "http://toplel.xyz:8080" + "/confirmation?data="  
+											+ "{\"email\":\"" + userInfo.getEmail() + "\", "
+											+ "\"idUser\":\"" + userInfo.getId()    + "\"}";
+					emailParams.put("URL", confirmationUrl);
+					mailUtility.sendEmail(mailUtility.CONFIRM_EMAIL, userInfo.getEmail(), emailParams);
 					return Response.ok("{result:2}", MediaType.TEXT_PLAIN).build();
 				}
-				
 			}
 			else {
-				
+				service.commit(CommitOperation.Persist, newUser);
+				Map<String, Object> newUserParam = new HashMap<String, Object>();
+				newUserParam.put(User.EmailParameterName, newUser.getEmail());
+				User newUserInDatabase = service.getSingleResult(User.class, 
+																 User.GetByEmailQueryName, 
+																 newUserParam);
 				// Send validation mail
-//				mailUtility.sendEmail(MailUtility.INSCRIPTION_MAIL, userInfo.getEmail(), parametersValues);
+				Map<String, String> emailParams = new HashMap<String, String>();
+				emailParams.put("LASTNAME", newUserInDatabase.getLastName());
+				emailParams.put("FIRSTNAME", newUserInDatabase.getFirstName());
+				emailParams.put("EMAIL", newUserInDatabase.getEmail());
+				String confirmationUrl = "http://toplel.xyz:8080" + "/confirmation?data="  
+										+ "{\"email\":\"" + newUserInDatabase.getEmail() + "\", "
+										+ "\"idUser\":\"" + newUserInDatabase.getId()    + "\"}";
+				emailParams.put("URL", confirmationUrl);
+				mailUtility.sendEmail(mailUtility.CONFIRM_EMAIL, newUserInDatabase.getEmail(), emailParams);
+			
 				return Response.ok("{result:1}", MediaType.TEXT_PLAIN).build();
 			}
 		}
 		catch(Exception e) {
+			e.printStackTrace();
 			System.out.println(e.getMessage());
 			return Response.serverError().entity("Error").build();
 		}
@@ -92,8 +116,8 @@ public class LoginService {
 	}
 	@Path("/validateUser")
 	@POST
-	@Produces("text/plain")
-	@Consumes("application/json")
+	@Produces(MediaType.TEXT_PLAIN)
+	@Consumes(MediaType.APPLICATION_JSON)
 	public Response validateUser(@FormParam("input") ValidateUserReqInfo validateUser) {
 		try {
 			boolean isInDataBase = false;
@@ -131,8 +155,8 @@ public class LoginService {
 	}
 	@Path("/authentificate")
 	@POST
-	@Produces("application/json")
-	@Consumes("application/json")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
 	public Response authentificate(@FormParam("input")AuthentificateReqInfo authentificate) {
 		try {
 			boolean isInDataBase = false;
@@ -150,7 +174,8 @@ public class LoginService {
 //				isValidAccount = userInfo.isEmailValidated();
 //			}
 //			if(authentificate.getEmail().equals(userInfo.getEmail()) && 
-//			   authentificate.getPassword().equals(userInfo.getPassword())) {
+//			   CryptoUtil.comparePassword(authentificate.getPassword().getBytes(), 
+//					   					  userInfo.getPassword().getBytes())) {
 //				isCorrectLoginAndPassword = true;
 //			}
 			AuthentificateResInfo result = new AuthentificateResInfo();
@@ -180,4 +205,49 @@ public class LoginService {
 			return Response.serverError().entity("Error").build();
 		}
 	}
+	@Path("/resetPassword")
+	@GET
+	@Produces(MediaType.TEXT_PLAIN)
+	@Consumes(MediaType.TEXT_PLAIN)
+	public Response resetPassword(@QueryParam("email")String email) {
+		try {
+			boolean isInDataBase = false;
+			boolean isValidAccount = false;
+			
+			Map<String, Object> param = new HashMap<String, Object>();
+			param.put(User.EmailParameterName, email);
+			User userInfo = service.getSingleResult(User.class, User.GetByEmailQueryName, param);
+			
+			// Check if the user is in database
+			if(userInfo != null)
+			{
+				isInDataBase = true;
+				isValidAccount = userInfo.isEmailValidated();
+			}
+			// Check if the user is in database
+			if(isInDataBase && isValidAccount) {
+				
+				// Send the mail
+				String readableTemporaryPassword = CryptoUtil.generateRandomPassword(8);
+				Map<String, String> params = new HashMap<String, String>();
+				params.put("EMAIL", email);
+				params.put("NEW_PASSWORD", readableTemporaryPassword);
+				mailUtility.sendEmail(mailUtility.PASSWORD_LOST, userInfo.getEmail(), params);
+				byte[] binTemporaryPassword = CryptoUtil.cryptSHA256(readableTemporaryPassword);
+				userInfo.setPassword(new String(binTemporaryPassword));
+				service.commit(CommitOperation.Update, userInfo);
+				
+				return Response.ok("{result:1}", MediaType.TEXT_PLAIN).build();
+			}
+			else {
+				return Response.ok("{result:0}", MediaType.TEXT_PLAIN).build();
+			}
+		}
+		catch(Exception e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+			return Response.serverError().entity("Error").build();
+		}
+	}
+	
 }

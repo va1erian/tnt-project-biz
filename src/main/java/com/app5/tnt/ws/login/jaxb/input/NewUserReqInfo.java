@@ -23,7 +23,11 @@ import com.app5.tnt.ws.adapter.DateAdapter;
 @XmlRootElement(name="")
 public class NewUserReqInfo implements Serializable {
 	
-	private static final long serialVersionUID = 5028942651663831659L;
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String firstName;
 	private String lastName;
 	@XmlJavaTypeAdapter(DateAdapter.class)
