@@ -11,6 +11,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.Type;
+
 @Entity
 @NamedQueries({
 		@NamedQuery(name = User.GetByEmailQueryName, query = "SELECT u " + "FROM User u " + "WHERE u.email = :email"),
@@ -36,85 +38,67 @@ public class User {
 	private Character gender;
 	@Column(name = "EMAIL", unique = true, length = 128)
 	private String email;
+	@Type(type="yes_no")
 	@Column(name = "EMAIL_VALIDATED", nullable = false)
-	private Boolean emailValitated;
-
-	
-	public Boolean getEmailValitated() {
-		return emailValitated;
-	}
-
-	public void setEmailValitated(Boolean emailValitated) {
-		this.emailValitated = emailValitated;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
+	private boolean emailValitated;
 	@Column(name = "PHONE", length = 16, nullable = true)
 	private String phone;
 	@Column(length = 64, nullable = false)
 	private String password;
-
-	public String getFirstName() {
-		return firstName;
+	public Long getId() {
+		return id;
 	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public Date getBirthOfDate() {
-		return birthOfDate;
-	}
-
-	public void setBirthOfDate(Date birthOfDate) {
-		this.birthOfDate = birthOfDate;
-	}
-
-	public Character getGender() {
-		return gender;
-	}
-
-	public void setGender(Character gender) {
-		this.gender = gender;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
 	public void setId(Long id) {
 		this.id = id;
 	}
-
+	public String getFirstName() {
+		return firstName;
+	}
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+	public String getLastName() {
+		return lastName;
+	}
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+	public Date getBirthOfDate() {
+		return birthOfDate;
+	}
+	public void setBirthOfDate(Date birthOfDate) {
+		this.birthOfDate = birthOfDate;
+	}
+	public Character getGender() {
+		return gender;
+	}
+	public void setGender(Character gender) {
+		this.gender = gender;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public boolean isEmailValidated() {
+		return emailValitated;
+	}
+	public void setEmailValitated(boolean emailValitated) {
+		this.emailValitated = emailValitated;
+	}
 	public String getPhone() {
 		return phone;
 	}
-
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-
 	public String getPassword() {
 		return password;
 	}
-
 	public void setPassword(String password) {
 		this.password = password;
 	}
 
+	
 }
