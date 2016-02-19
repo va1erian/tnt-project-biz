@@ -12,6 +12,7 @@ import javax.xml.bind.annotation.XmlType;
     "idUser",
 	"firstName",
     "lastName",
+    "birthDate",
     "gender",
     "email"
 })
@@ -23,6 +24,8 @@ public class UpdateUserProfileReqInfo implements Serializable {
 	private String idUser;
 	private String firstName;
 	private String lastName;
+	@XmlJavaTypeAdapter(DateAdapter.class)
+	private Date birthDate;
 	private String gender;
 	private String email;
 	
@@ -50,6 +53,12 @@ public class UpdateUserProfileReqInfo implements Serializable {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
+	public Date getBirthDate() {
+		return birthDate;
+	}
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
+	}
 	public String getGender() {
 		return gender;
 	}
@@ -61,5 +70,12 @@ public class UpdateUserProfileReqInfo implements Serializable {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	@Override
+	public String toString() {
+		return "UpdateUserProfileReqInfo [idUser=" + idUser + ", firstName="
+				+ firstName + ", lastName=" + lastName + ", birthDate="
+				+ birthDate + ", gender=" + gender + ", email=" + email + "]";
 	}
 }
