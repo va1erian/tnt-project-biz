@@ -41,9 +41,9 @@ public class UserService {
 								MediaType.APPLICATION_JSON).build();
 			}
 			else {
+				// TODO : check message error
 				return Response
-						.ok(user, 
-								MediaType.APPLICATION_JSON).build();
+						.serverError().entity("Error").build();
 			}
 		}
 		catch(Exception e){
@@ -51,6 +51,7 @@ public class UserService {
 			return Response.serverError().entity("Error").build();
 		}
 	}
+	
 	@Path("/updateUserProfile")
 	@PUT
 	@Consumes("application/json")
