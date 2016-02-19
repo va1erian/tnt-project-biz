@@ -32,4 +32,18 @@
 			<property name="hibernate.max_fetch_depth" value="3" />
 		</properties>
 	</persistence-unit>
+	
+	<persistence-unit name="remote-server-reset"
+		transaction-type="RESOURCE_LOCAL">
+		<class>com.app5.tnt.jpa.model.User</class>
+		<properties>
+			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+			<property name="javax.persistence.jdbc.user" value="tnt" />
+			<property name="javax.persistence.jdbc.password" value="tnt-app" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://toplel.xyz:3306/tnt_db" />
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
+			<property name="hibernate.hbm2ddl.auto" value="create" />
+			<property name="hibernate.max_fetch_depth" value="3" />
+		</properties>
+	</persistence-unit>
 </persistence>
