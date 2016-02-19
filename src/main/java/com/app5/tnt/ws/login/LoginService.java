@@ -15,6 +15,7 @@ import javax.ws.rs.core.Response;
 import com.app5.tnt.jpa.model.User;
 import com.app5.tnt.jpa.service.Service;
 import com.app5.tnt.utils.MailUtility;
+import com.app5.tnt.utils.NumericUtil;
 import com.app5.tnt.ws.adapter.DateAdapter;
 import com.app5.tnt.ws.login.jaxb.LoginUserInfo;
 import com.app5.tnt.ws.login.jaxb.input.AuthentificateReqInfo;
@@ -99,8 +100,7 @@ public class LoginService {
 			boolean validAccount = false;
 //			Map<String, Object> param = new HashMap<String, Object>();
 //			param.put(User.EmailParameterName, validateUser.getEmail());
-			// WARNING don't forget to convert the userId
-//			param.put(User.IdParameterName, validateUser.getUserId());
+//			param.put(User.IdParameterName, validateUser.getidUser());
 //			User userInfo = service.getSingleResult(User.class, User.GetByIdAndEmailQueryName, param);
 			
 			// Check if the user is in database
