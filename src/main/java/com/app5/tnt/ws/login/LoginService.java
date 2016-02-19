@@ -16,6 +16,7 @@ import com.app5.tnt.jpa.model.User;
 import com.app5.tnt.jpa.service.Service;
 import com.app5.tnt.utils.MailUtility;
 import com.app5.tnt.ws.login.jaxb.LoginUserInfo;
+import com.app5.tnt.ws.login.jaxb.input.ValidateUserReqInfo;
 import com.app5.tnt.ws.login.jaxb.input.newUserReqInfo;
 
 @Path("/login")
@@ -58,7 +59,7 @@ public class LoginService {
 //			}
 			
 			// Check if the user is in database
-			if(isInDataBase) {
+			if(!isInDataBase) {
 				// Check if the user has validate his/her account
 				if(validAccount) {
 					return Response.ok("{result:0}", MediaType.TEXT_PLAIN).build();
@@ -83,5 +84,45 @@ public class LoginService {
 			return Response.serverError().entity("Error").build();
 		}
 		
+	}
+	@Path("/validateUser")
+	@POST
+	@Produces("text/plain")
+	@Consumes("application/json")
+	public Response validateUser(@FormParam("input") ValidateUserReqInfo validateUser) {
+		try {
+			boolean isInDataBase = false;
+			boolean validAccount = false;
+//			Map<String, Object> param = new HashMap<String, Object>();
+//			param.put(User.EmailParameterName, validateUser.getEmail());
+			// WARNING don't forget to convert the userId
+//			param.put(User.IdParameterName, validateUser.getUserId());
+//			User userInfo = service.getSingleResult(User.class, User.GetByIdAndEmailQueryName, param);
+			
+			// Check if the user is in database
+//			if(userInfo != null)
+//			{
+//				isInDataBase = true;
+//				validAccount = userInfo.getEmailValitated();
+//			}
+			
+			// Check if the user is in database
+			if(isInDataBase) {
+				// Check if the user has validate his/her account
+				if(validAccount) {
+					return Response.ok("{result:0}", MediaType.TEXT_PLAIN).build();
+				}
+				else {
+					return Response.ok("{result:1}", MediaType.TEXT_PLAIN).build();
+				}
+			}
+			else {
+				return Response.serverError().status(500).entity("Utilisateur non trouvé en base").build();
+			}
+		}
+		catch(Exception e) {
+			System.out.println(e.getMessage());
+			return Response.serverError().entity("Error").build();
+		}
 	}
 }
