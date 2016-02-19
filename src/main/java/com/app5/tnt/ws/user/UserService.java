@@ -1,9 +1,10 @@
 package com.app5.tnt.ws.user;
 
+import java.text.SimpleDateFormat;
+
 import javax.ws.rs.Consumes;
-import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -12,7 +13,6 @@ import javax.ws.rs.core.Response;
 
 import com.app5.tnt.jpa.model.User;
 import com.app5.tnt.jpa.service.Service;
-import com.app5.tnt.ws.adapter.DateAdapter;
 import com.app5.tnt.ws.user.jaxb.input.UpdateUserProfileReqInfo;
 import com.app5.tnt.ws.user.jaxb.output.GetUserProfileResInfo;
 
@@ -59,22 +59,32 @@ public class UserService {
 	}
 	
 	@Path("/updateUserProfile")
-	@PUT
-	@Consumes("application/json")
-	public Response updateUserProfile(@FormParam("updateUser") UpdateUserProfileReqInfo userProfile) {
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response updateUserProfile(UpdateUserProfileReqInfo userProfile) {
+		
+		//Just to check the bindings conversion
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+			String formattedDate = formatter.format(userProfile.getBirthDate());
+			
+		//Log
+			System.out.println("userId    : "  +  userProfile.getIdUser());
+			System.out.println("FirstName : "  +  userProfile.getFirstName());
+			System.out.println("LastName  : "  +  userProfile.getLastName());
+			System.out.println("DofBirth  : "  +  formattedDate);
+			System.out.println("Email     : "  +  userProfile.getEmail());
+			System.out.println("Gender    : "  +  userProfile.getGender());
+			System.out.println("Password  : "  +  userProfile.getPassword());
+		
 		try	{
 			boolean isInDataBase = false;
 			// Check if the user exist in the database
 			if(isInDataBase) {
 				
-				return Response
-						.ok("{update:true}", 
-								MediaType.APPLICATION_JSON).build();
+				return Response.ok("{update:true}", MediaType.APPLICATION_JSON).build();
 			}
 			else {
-				return Response
-						.ok("{update:true}", 
-								MediaType.APPLICATION_JSON).build();
+				return Response.ok("{update:true}", MediaType.APPLICATION_JSON).build();
 			}
 		}
 		catch(Exception e){

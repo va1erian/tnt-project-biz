@@ -6,26 +6,17 @@ import java.util.Date;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import com.app5.tnt.ws.adapter.DateAdapter;
+
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "userId",
-	"firstName",
-    "lastName",
-    "birthDate",
-    "gender",
-    "email",
-    "password"
-})
-@XmlRootElement(name="updateUser")
+@XmlRootElement
 public class UpdateUserProfileReqInfo implements Serializable {
 	
 	private static final long serialVersionUID = 5028942651663831659L;
 	
-	private String userId;
+	private String idUser;
 	private String firstName;
 	private String lastName;
 	@XmlJavaTypeAdapter(DateAdapter.class)
@@ -38,12 +29,12 @@ public class UpdateUserProfileReqInfo implements Serializable {
 		
 	}
 	
-	public String getUserId() {
-		return userId;
+	public String getIdUser() {
+		return idUser;
 	}
 
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setIdUser(String idUser) {
+		this.idUser = idUser;
 	}
 
 	public String getFirstName() {
