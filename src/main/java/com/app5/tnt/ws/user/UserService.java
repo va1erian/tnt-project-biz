@@ -10,6 +10,8 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.app5.tnt.jpa.model.User;
+import com.app5.tnt.jpa.service.Service;
 import com.app5.tnt.ws.adapter.DateAdapter;
 import com.app5.tnt.ws.user.jaxb.input.UpdateUserProfileReqInfo;
 import com.app5.tnt.ws.user.jaxb.output.GetUserProfileResInfo;
@@ -23,18 +25,22 @@ public class UserService {
 	@Produces("application/json")
 	public Response getUserProfile(@QueryParam("userId") String userId) {
 		try	{
-			boolean isInDataBase = false;
+			Service jpaServ = new Service();
+			Long longId = Long.parseLong(userId);
+			User userInfo = jpaServ.findById(User.class, longId);
+			
+			boolean isInDataBase = (userInfo != null);
 			GetUserProfileResInfo user = new GetUserProfileResInfo();
+			
 			// Check if the user exist in the database
 			if(isInDataBase) {
-				
-				user.setFirstName("Johan");
-				user.setLastName("Douillard");
-				DateAdapter da = new DateAdapter();
-				user.setBirthDate(da.unmarshal("14-01-1993"));
-				user.setGender("M");
-				user.setEmail("test@test.fr");
-				user.setPassword("test");
+				user.setFirstName(userInfo.getFirstName());
+				user.setLastName(userInfo.getLastName());
+				//DateAdapter da = new DateAdapter();
+				user.setBirthDate(userInfo.getBirthOfDate());
+				user.setGender(userInfo.getGender().toString());
+				user.setEmail(userInfo.getEmail());
+				user.setId(userId);
 				
 				return Response
 						.ok(user, 
@@ -48,7 +54,7 @@ public class UserService {
 		}
 		catch(Exception e){
 			System.out.println(e.getMessage());
-			return Response.serverError().entity("Error").build();
+			return Response.serverError().entity("Fatal Error").build();
 		}
 	}
 	
