@@ -20,11 +20,11 @@ public class Service {
 		return emf.createEntityManager();
 	}
 	
-	Service (){
+	public Service (){
 		emf = Persistence.createEntityManagerFactory("remote-server");
 	}
 	
-	Service (String persistenceUnit ){
+	public Service (String persistenceUnit ){
 		emf = Persistence.createEntityManagerFactory( persistenceUnit );
 	}
 	
