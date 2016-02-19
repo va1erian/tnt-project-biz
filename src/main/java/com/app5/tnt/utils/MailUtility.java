@@ -24,9 +24,12 @@ import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
  */
 public class MailUtility {
 
+	// Public fields
 	// Static template path
-	public final static String INSCRIPTION_MAIL = "inscription";
+	public final static String CONFIRM_EMAIL = "confirm_email";
+	public final static String PASSWORD_LOST = "password_lost";
 
+	// Private fields
 	// Sender's information
 	private final static String EXPEDITION_ADDRESS = "tnt.project.polytech@gmail.com";
 	private final String USERNAME = "tnt.project.polytech@gmail.com";
@@ -36,12 +39,21 @@ public class MailUtility {
 	private Session mailingSession;
 
 	/**
+	 * Instance
+	 */
+	private static MailUtility instance = new MailUtility();
+
+	public static MailUtility getInstance() {
+		return instance;
+	}
+
+	/**
 	 * Default constructor, initialize thymeleaf template engine and the mailing
 	 * session.
 	 * 
 	 * There is no parameter because we use constants instead
 	 */
-	public MailUtility() {
+	private MailUtility() {
 		// Initialisation du template engine
 		ClassLoaderTemplateResolver resolver = new ClassLoaderTemplateResolver();
 		resolver.setTemplateMode("HTML5");
