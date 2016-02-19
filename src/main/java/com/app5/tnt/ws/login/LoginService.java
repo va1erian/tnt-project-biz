@@ -35,18 +35,26 @@ public class LoginService {
 			boolean isInDataBase = false;
 			boolean validAccount = false;
 			
-			// Check if user is in database
+			// Check if the user is in database
+			// Check if the user has validate his/her account
 			
 			if(isInDataBase) {
-				return Response.ok("{result:0}", MediaType.TEXT_PLAIN).build();
-			}
-			else {
 				if(validAccount) {
-					return Response.ok("{result:1}", MediaType.TEXT_PLAIN).build();
+					return Response.ok("{result:0}", MediaType.TEXT_PLAIN).build();
 				}
 				else {
+					
+					// Resend validation mail 
+					
 					return Response.ok("{result:2}", MediaType.TEXT_PLAIN).build();
 				}
+				
+			}
+			else {
+				
+				// Send validation mail
+				
+				return Response.ok("{result:1}", MediaType.TEXT_PLAIN).build();
 			}
 		}
 		catch(Exception e) {
