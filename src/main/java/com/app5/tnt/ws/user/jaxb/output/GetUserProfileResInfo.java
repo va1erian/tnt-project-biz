@@ -18,7 +18,7 @@ import com.app5.tnt.ws.adapter.DateAdapter;
     "birthDate",
     "gender",
     "email",
-    "password"
+    "id"
 })
 @XmlRootElement(name="userProfile")
 public class GetUserProfileResInfo implements Serializable {
@@ -30,7 +30,7 @@ public class GetUserProfileResInfo implements Serializable {
 	private Date birthDate;
 	private String gender;
 	private String email;
-	private String password;
+	private String id;
 	
 	public GetUserProfileResInfo() {
 		
@@ -66,10 +66,12 @@ public class GetUserProfileResInfo implements Serializable {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getPassword() {
-		return password;
+
+	public String getId() {
+		return id;
 	}
-	public void setPassword(String password) {
-		this.password = password;
+
+	public void setId(String id) {
+		this.id = id;
 	}
 }
