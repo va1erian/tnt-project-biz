@@ -1,4 +1,4 @@
-package com.app5.tnt.ws.login.jaxb.input;
+package com.app5.tnt.ws.login.jaxb.output;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -11,28 +11,32 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import com.app5.tnt.ws.adapter.DateAdapter;
 
+
+
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
+@XmlType(name = "user", propOrder = {
     "firstName",
     "lastName",
     "birthDate",
     "gender",
     "email",
-    "password"
+    "idUser"
 })
-@XmlRootElement(name="")
-public class newUserReqInfo implements Serializable {
-	
+
+@XmlRootElement(name="user")
+public class UserData implements Serializable {
+
 	private static final long serialVersionUID = 5028942651663831659L;
+	
 	private String firstName;
 	private String lastName;
 	@XmlJavaTypeAdapter(DateAdapter.class)
 	private Date birthDate;
-	private String gender;
+	private Character gender;
 	private String email;
-	private String password;
+	private Long idUser;
 	
-	public newUserReqInfo() {
+	public UserData() {
 		
 	}
 	
@@ -54,10 +58,10 @@ public class newUserReqInfo implements Serializable {
 	public void setBirthDate(Date birthDate) {
 		this.birthDate = birthDate;
 	}
-	public String getGender() {
+	public Character getGender() {
 		return gender;
 	}
-	public void setGender(String gender) {
+	public void setGender(Character gender) {
 		this.gender = gender;
 	}
 	public String getEmail() {
@@ -66,10 +70,11 @@ public class newUserReqInfo implements Serializable {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getPassword() {
-		return password;
+	public Long getIdUser() {
+		return idUser;
 	}
-	public void setPassword(String password) {
-		this.password = password;
+	public void setIdUser(Long idUser) {
+		this.idUser = idUser;
 	}
+
 }

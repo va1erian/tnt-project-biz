@@ -14,8 +14,7 @@ import javax.xml.bind.annotation.XmlType;
     "prenom"
 })
 @XmlRootElement(name="loginUserInfo")
-public class LoginUserInfo implements Serializable{
-	
+public class LoginUserInfo implements Serializable {
 	
 	private static final long serialVersionUID = 5028942651663831659L;
 	

@@ -15,9 +15,13 @@ import javax.ws.rs.core.Response;
 import com.app5.tnt.jpa.model.User;
 import com.app5.tnt.jpa.service.Service;
 import com.app5.tnt.utils.MailUtility;
+import com.app5.tnt.ws.adapter.DateAdapter;
 import com.app5.tnt.ws.login.jaxb.LoginUserInfo;
+import com.app5.tnt.ws.login.jaxb.input.AuthentificateReqInfo;
 import com.app5.tnt.ws.login.jaxb.input.ValidateUserReqInfo;
-import com.app5.tnt.ws.login.jaxb.input.newUserReqInfo;
+import com.app5.tnt.ws.login.jaxb.output.AuthentificateResInfo;
+import com.app5.tnt.ws.login.jaxb.output.UserData;
+import com.app5.tnt.ws.login.jaxb.input.NewUserReqInfo;
 
 @Path("/login")
 public class LoginService {
@@ -43,7 +47,7 @@ public class LoginService {
 	@POST
 	@Produces("text/plain")
 	@Consumes("application/json")
-	public Response createUser(@FormParam("input") newUserReqInfo newUser) {
+	public Response createUser(@FormParam("input") NewUserReqInfo newUser) {
 		try {
 			boolean isInDataBase = false;
 			boolean validAccount = false;
@@ -59,7 +63,7 @@ public class LoginService {
 //			}
 			
 			// Check if the user is in database
-			if(!isInDataBase) {
+			if(isInDataBase) {
 				// Check if the user has validate his/her account
 				if(validAccount) {
 					return Response.ok("{result:0}", MediaType.TEXT_PLAIN).build();
@@ -118,6 +122,57 @@ public class LoginService {
 			}
 			else {
 				return Response.serverError().status(500).entity("Utilisateur non trouvé en base").build();
+			}
+		}
+		catch(Exception e) {
+			System.out.println(e.getMessage());
+			return Response.serverError().entity("Error").build();
+		}
+	}
+	@Path("/authentificate")
+	@POST
+	@Produces("application/json")
+	@Consumes("application/json")
+	public Response authentificate(@FormParam("input")AuthentificateReqInfo authentificate) {
+		try {
+			boolean isInDataBase = false;
+			boolean isValidAccount = false;
+			boolean isCorrectLoginAndPassword = false;
+			
+//			Map<String, Object> param = new HashMap<String, Object>();
+//			param.put(User.EmailParameterName, authentificate.getEmail());
+//			User userInfo = service.getSingleResult(User.class, User.GetByIdAndEmailQueryName, param);
+			
+			// Check if the user is in database
+//			if(userInfo != null)
+//			{
+//				isInDataBase = true;
+//				isValidAccount = userInfo.isEmailValidated();
+//			}
+//			if(authentificate.getEmail().equals(userInfo.getEmail()) && 
+//			   authentificate.getPassword().equals(userInfo.getPassword())) {
+//				isCorrectLoginAndPassword = true;
+//			}
+			AuthentificateResInfo result = new AuthentificateResInfo();
+			UserData userData = new UserData();
+			// Check if the user is in database
+			if(isInDataBase && isValidAccount && isCorrectLoginAndPassword) {
+				result.setSuccess((short)1);
+//				userData.setFirstName(userInfo.getFirstName());
+//				userData.setLastName(userInfo.getLastName());
+//				DateAdapter da = new DateAdapter();
+//				userData.setBirthDate(userInfo.getBirthOfDate());
+//				userData.setGender(userInfo.getGender());
+//				userData.setEmail(userInfo.getEmail());
+//				userData.setUserId(userInfo.getId());
+//				result.setUser(userData);
+				return Response.ok(result, MediaType.APPLICATION_JSON).build();
+			}
+			else {
+				result.setSuccess((short)0);
+				userData = null;
+				result.setUser(userData);
+				return Response.ok(result, MediaType.APPLICATION_JSON).build();
 			}
 		}
 		catch(Exception e) {
