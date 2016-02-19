@@ -48,8 +48,9 @@ public class LoginService {
 	@POST
 	@Produces("text/plain")
 	@Consumes("application/json")
-	public Response createUser(@FormParam("input") NewUserReqInfo newUser) {
+	public Response createUser( NewUserReqInfo newUser) {
 		try {
+			System.out.println(newUser.getEmail());
 			boolean isInDataBase = false;
 			boolean validAccount = false;
 //			Map<String, Object> param = new HashMap<String, Object>();
