@@ -28,7 +28,7 @@ public class NewUserReqInfo implements Serializable {
 	private String lastName;
 	@XmlJavaTypeAdapter(DateAdapter.class)
 	private Date birthDate;
-	private String gender;
+	private Character gender;
 	private String email;
 	private String password;
 	
@@ -54,10 +54,10 @@ public class NewUserReqInfo implements Serializable {
 	public void setBirthDate(Date birthDate) {
 		this.birthDate = birthDate;
 	}
-	public String getGender() {
+	public Character getGender() {
 		return gender;
 	}
-	public void setGender(String gender) {
+	public void setGender(Character gender) {
 		this.gender = gender;
 	}
 	public String getEmail() {
