@@ -13,14 +13,22 @@ import javax.persistence.TypedQuery;
 
 public class Service {
 
-	private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("remote-server");
-
-	static EntityManager getNewEntityManager() {
+	private final EntityManagerFactory emf ;
+	
+	EntityManager getNewEntityManager() {
 
 		return emf.createEntityManager();
 	}
-
-	public static <Entity> void commit(CommitOperation commitOperation, Entity entity) {
+	
+	Service (){
+		emf = Persistence.createEntityManagerFactory("remote-server");
+	}
+	
+	Service (String persistenceUnit ){
+		emf = Persistence.createEntityManagerFactory( persistenceUnit );
+	}
+	
+	public <Entity> void commit(CommitOperation commitOperation, Entity entity) {
 		EntityManager em = getNewEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
@@ -28,7 +36,7 @@ public class Service {
 		tx.commit();
 	}
 
-	public static <Entity> void commitAll(CommitOperation commitOperation, Collection<Entity> entitis) {
+	public <Entity> void commitAll(CommitOperation commitOperation, Collection<Entity> entitis) {
 		EntityManager em = getNewEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
@@ -37,7 +45,7 @@ public class Service {
 		tx.commit();
 	}
 
-	public static <Entity> Entity getSingleResult(Class<Entity> entityClass, String queryName, Map<String, Object> queryParameter) {
+	public <Entity> Entity getSingleResult(Class<Entity> entityClass, String queryName, Map<String, Object> queryParameter) {
 		Entity result = null;
 		TypedQuery<Entity> query = getNewEntityManager().createNamedQuery(queryName, entityClass);
 
@@ -48,12 +56,12 @@ public class Service {
 		try {
 			result = query.getSingleResult();
 		} catch (NoResultException e) {
-			//e.printStackTrace();
+			e.printStackTrace();
 		}
 		return result;
 	}
 
-	public static <Entity> List<Entity> getResultList(Class<Entity> entityClass, String queryName, Map<String, Object> queryParameter) {
+	public <Entity> List<Entity> getResultList(Class<Entity> entityClass, String queryName, Map<String, Object> queryParameter) {
 		List<Entity> result = null;
 		TypedQuery<Entity> query = getNewEntityManager().createNamedQuery(queryName, entityClass);
 
@@ -64,12 +72,12 @@ public class Service {
 		try {
 			result = query.getResultList();
 		} catch (NoResultException e) {
-			//e.printStackTrace();
+			e.printStackTrace();
 		}
 		return result;
 	}
-
-	public static void load() {
-		getNewEntityManager();
+	
+	public <Entity> Entity findById (Class<Entity> entityClass, Object Id){
+		return getNewEntityManager().find(entityClass, Id);
 	}
 }
