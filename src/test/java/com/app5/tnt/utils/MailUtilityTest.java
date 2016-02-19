@@ -19,12 +19,14 @@ public class MailUtilityTest {
 	 */
 	@Test
 	public void mailUtilitySendEmailTestOk() {
-		MailUtility mailer = new MailUtility();
 
 		HashMap<String, String> paramsValues = new HashMap<String, String>(1);
-		paramsValues.put("name", "Sebastien testeur");
-		mailer.sendEmail(MailUtility.INSCRIPTION_MAIL,
-				"sebastien.ferrer@u-psud.fr", paramsValues);
+		paramsValues.put("FIRSTNAME", "Robin");
+		paramsValues.put("LASTNAME", "Delgado");
+		paramsValues.put("EMAIL", "test@gmail.com");
+		paramsValues.put("URL", "http://lemonde.fr");
+		MailUtility.getInstance().sendEmail(MailUtility.CONFIRM_EMAIL,
+				"fausseadresse@mail.fr", paramsValues);
 
 		assert (true);
 	}
@@ -35,13 +37,12 @@ public class MailUtilityTest {
 	 */
 	@Test
 	public void mailUtilitySendEmailTestHashMapNok() {
-		MailUtility mailer = new MailUtility();
 
 		HashMap<String, String> paramsValues = new HashMap<String, String>(1);
 		paramsValues.put("name", "Sebastien testeur");
 		paramsValues.put("name2", "Sebastien");
 		paramsValues.put("name3", "Sebastien");
-		mailer.sendEmail(MailUtility.INSCRIPTION_MAIL,
+		MailUtility.getInstance().sendEmail(MailUtility.CONFIRM_EMAIL,
 				"sebastien.ferrer@u-psud.fr", paramsValues);
 
 		assert (true);
@@ -53,15 +54,14 @@ public class MailUtilityTest {
 	 */
 	@Test
 	public void mailUtilitySendEmailTestTemplatePathNok() {
-		MailUtility mailer = new MailUtility();
 
 		HashMap<String, String> paramsValues = new HashMap<String, String>(1);
 		paramsValues.put("name", "Sebastien testeur");
 
 		boolean expectedBehavior = false;
 		try {
-			mailer.sendEmail("non_existing_path", "sebastien.ferrer@u-psud.fr",
-					paramsValues);
+			MailUtility.getInstance().sendEmail("non_existing_path",
+					"sebastien.ferrer@u-psud.fr", paramsValues);
 		} catch (RuntimeException e) {
 			expectedBehavior = true;
 		}

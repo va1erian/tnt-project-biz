@@ -1,0 +1,25 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-3.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+      
+      <head>
+      	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+      </head>
+
+<body>
+	<p>
+		Bonjour <br /> Ceci est un email de confirmation pour la création
+		d'un compte utilisateur sur le site TnT avec les informations
+		suivante:
+	<ul>
+		<li>Nom: <span th:text="${LASTNAME}"></span></li>
+		<li>Prénom: <span th:text="${FIRSTNAME}"></span></li>
+		<li>Email: <span th:text="${EMAIL}"></span></li>
+	</ul>
+
+	Pour valider votre inscription, merci de cliquer sur l'url suivante :
+	<a th:href="${URL}" th:text="${URL}"></a>
+	
+	</p>
+</body>
+</html>
