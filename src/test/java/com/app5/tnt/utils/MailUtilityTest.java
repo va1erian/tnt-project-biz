@@ -15,7 +15,7 @@ import org.junit.Test;
 public class MailUtilityTest {
 
 	/**
-	 * Test the case for inscription mail
+	 * Test the case for confirm_inscription & password_lost template
 	 */
 	@Test
 	public void mailUtilitySendEmailTestOk() {
@@ -29,10 +29,19 @@ public class MailUtilityTest {
 				"fausseadresse@mail.fr", paramsValues);
 
 		assert (true);
+		
+		paramsValues = new HashMap<String, String>(1);
+		paramsValues.put("EMAIL", "test@test.fr");
+		paramsValues.put("NEW_PASSWORD", "coucou91");
+
+		MailUtility.getInstance().sendEmail(MailUtility.PASSWORD_LOST,
+				"fausseadresse@mail.fr", paramsValues);
+		
+		assert (true);
 	}
 
 	/**
-	 * Test the case for inscription mail with a hashmap that does not exactly
+	 * Test the case with a hashmap that does not exactly
 	 * match the parameters required
 	 */
 	@Test
@@ -49,7 +58,7 @@ public class MailUtilityTest {
 	}
 
 	/**
-	 * Test the case for inscription mail with a template path that does not
+	 * Test the case with a template path that does not
 	 * match any existing template
 	 */
 	@Test
