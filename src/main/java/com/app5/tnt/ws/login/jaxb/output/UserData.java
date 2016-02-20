@@ -6,7 +6,6 @@ import java.util.Date;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import com.app5.tnt.ws.adapter.DateAdapter;
@@ -14,15 +13,6 @@ import com.app5.tnt.ws.adapter.DateAdapter;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "user", propOrder = {
-    "firstName",
-    "lastName",
-    "birthDate",
-    "gender",
-    "email",
-    "idUser"
-})
-
 @XmlRootElement(name="user")
 public class UserData implements Serializable {
 

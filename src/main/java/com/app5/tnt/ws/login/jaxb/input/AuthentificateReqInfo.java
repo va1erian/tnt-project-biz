@@ -5,14 +5,9 @@ import java.io.Serializable;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "email",
-    "password"
-})
-@XmlRootElement(name="")
+@XmlRootElement
 public class AuthentificateReqInfo implements Serializable {
 private static final long serialVersionUID = 5028942651663831659L;
 	

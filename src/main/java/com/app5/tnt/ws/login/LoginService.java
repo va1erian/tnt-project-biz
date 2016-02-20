@@ -1,5 +1,6 @@
 package com.app5.tnt.ws.login;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,8 +19,6 @@ import com.app5.tnt.jpa.service.CommitOperation;
 import com.app5.tnt.jpa.service.Service;
 import com.app5.tnt.utils.CryptoUtil;
 import com.app5.tnt.utils.MailUtility;
-import com.app5.tnt.utils.NumericUtil;
-import com.app5.tnt.ws.adapter.DateAdapter;
 import com.app5.tnt.ws.login.jaxb.LoginUserInfo;
 import com.app5.tnt.ws.login.jaxb.input.AuthentificateReqInfo;
 import com.app5.tnt.ws.login.jaxb.input.ValidateUserReqInfo;
@@ -51,7 +50,7 @@ public class LoginService {
 	@POST
 	@Produces(MediaType.TEXT_PLAIN)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response createUser(@FormParam("input") NewUserReqInfo newUser) {
+	public Response createUser(NewUserReqInfo newUser) {
 		try {
 			boolean isInDataBase = false;
 			boolean validAccount = false;
@@ -78,29 +77,46 @@ public class LoginService {
 					emailParams.put("LASTNAME", userInfo.getLastName());
 					emailParams.put("FIRSTNAME", userInfo.getFirstName());
 					emailParams.put("EMAIL", userInfo.getEmail());
-					String confirmationUrl = "http://toplel.xyz:8080" + "/confirmation?data="  
-											+ "{\"email\":\"" + userInfo.getEmail() + "\", "
-											+ "\"idUser\":\"" + userInfo.getId()    + "\"}";
+					String jsonToCrypt = "{\"email\":\"" + userInfo.getEmail() + "\", "
+										 + "\"idUser\":\"" + userInfo.getId()    + "\"}";
+					String confirmationUrl = "http://toplel.xyz:8080" + "/confirmation" + "?data="  
+											+ new String(CryptoUtil.cryptSHA256(jsonToCrypt), "UTF-8");
 					emailParams.put("URL", confirmationUrl);
 					mailUtility.sendEmail(mailUtility.CONFIRM_EMAIL, userInfo.getEmail(), emailParams);
 					return Response.ok("{result:2}", MediaType.TEXT_PLAIN).build();
 				}
 			}
 			else {
-				service.commit(CommitOperation.Persist, newUser);
+				// Create the new user in the database
+				User u = new User();
+				u.setEmail(newUser.getEmail());
+				u.setBirthOfDate(newUser.getBirthDate());
+				u.setEmailValitated(false);
+				u.setFirstName(newUser.getFirstName());
+				u.setGender(newUser.getGender());
+				u.setLastName(newUser.getLastName());
+				String passwordEncrypted = new String(CryptoUtil.cryptSHA256(newUser.getPassword()), "UTF-8");
+				u.setPassword(passwordEncrypted);
+				service.commit(CommitOperation.Persist, u);
+				
+				// Recover the user created before
 				Map<String, Object> newUserParam = new HashMap<String, Object>();
-				newUserParam.put(User.EmailParameterName, newUser.getEmail());
+				newUserParam.put(User.EmailParameterName, u.getEmail());
 				User newUserInDatabase = service.getSingleResult(User.class, 
 																 User.GetByEmailQueryName, 
 																 newUserParam);
+				
 				// Send validation mail
 				Map<String, String> emailParams = new HashMap<String, String>();
 				emailParams.put("LASTNAME", newUserInDatabase.getLastName());
 				emailParams.put("FIRSTNAME", newUserInDatabase.getFirstName());
 				emailParams.put("EMAIL", newUserInDatabase.getEmail());
-				String confirmationUrl = "http://toplel.xyz:8080" + "/confirmation?data="  
-										+ "{\"email\":\"" + newUserInDatabase.getEmail() + "\", "
-										+ "\"idUser\":\"" + newUserInDatabase.getId()    + "\"}";
+				String jsonToCrypt = "{\"email\":\"" + newUserInDatabase.getEmail() + "\", "
+						 		   + "\"idUser\":\"" + newUserInDatabase.getId()    + "\"}";
+
+				String confirmationUrl = "http://toplel.xyz:8080" + "/confirmation" + "?data="  
+										+ new String(CryptoUtil.cryptSHA256(jsonToCrypt), "UTF-8");
+				
 				emailParams.put("URL", confirmationUrl);
 				mailUtility.sendEmail(mailUtility.CONFIRM_EMAIL, newUserInDatabase.getEmail(), emailParams);
 			
@@ -118,21 +134,21 @@ public class LoginService {
 	@POST
 	@Produces(MediaType.TEXT_PLAIN)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response validateUser(@FormParam("input") ValidateUserReqInfo validateUser) {
+	public Response validateUser(ValidateUserReqInfo validateUser) {
 		try {
 			boolean isInDataBase = false;
 			boolean validAccount = false;
-//			Map<String, Object> param = new HashMap<String, Object>();
-//			param.put(User.EmailParameterName, validateUser.getEmail());
-//			param.put(User.IdParameterName, validateUser.getidUser());
-//			User userInfo = service.getSingleResult(User.class, User.GetByIdAndEmailQueryName, param);
+			Map<String, Object> param = new HashMap<String, Object>();
+			param.put(User.EmailParameterName, validateUser.getEmail());
+			param.put(User.IdParameterName, validateUser.getidUser());
+			User userInfo = service.getSingleResult(User.class, User.GetByIdAndEmailQueryName, param);
 			
 			// Check if the user is in database
-//			if(userInfo != null)
-//			{
-//				isInDataBase = true;
-//				validAccount = userInfo.getEmailValitated();
-//			}
+			if(userInfo != null)
+			{
+				isInDataBase = true;
+				validAccount = userInfo.isEmailValidated();
+			}
 			
 			// Check if the user is in database
 			if(isInDataBase) {
@@ -141,6 +157,8 @@ public class LoginService {
 					return Response.ok("{result:0}", MediaType.TEXT_PLAIN).build();
 				}
 				else {
+					userInfo.setEmailValitated(true);
+					service.commit(CommitOperation.Update, userInfo);
 					return Response.ok("{result:1}", MediaType.TEXT_PLAIN).build();
 				}
 			}
@@ -157,40 +175,40 @@ public class LoginService {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response authentificate(@FormParam("input")AuthentificateReqInfo authentificate) {
+	public Response authentificate(AuthentificateReqInfo authentificate) {
 		try {
 			boolean isInDataBase = false;
 			boolean isValidAccount = false;
 			boolean isCorrectLoginAndPassword = false;
 			
-//			Map<String, Object> param = new HashMap<String, Object>();
-//			param.put(User.EmailParameterName, authentificate.getEmail());
-//			User userInfo = service.getSingleResult(User.class, User.GetByIdAndEmailQueryName, param);
+			Map<String, Object> param = new HashMap<String, Object>();
+			param.put(User.EmailParameterName, authentificate.getEmail());
+			User userInfo = service.getSingleResult(User.class, User.GetByEmailQueryName, param);
 			
 			// Check if the user is in database
-//			if(userInfo != null)
-//			{
-//				isInDataBase = true;
-//				isValidAccount = userInfo.isEmailValidated();
-//			}
-//			if(authentificate.getEmail().equals(userInfo.getEmail()) && 
-//			   CryptoUtil.comparePassword(authentificate.getPassword().getBytes(), 
-//					   					  userInfo.getPassword().getBytes())) {
-//				isCorrectLoginAndPassword = true;
-//			}
+			if(userInfo != null)
+			{
+				isInDataBase = true;
+				isValidAccount = userInfo.isEmailValidated();
+				if(authentificate.getEmail().equals(userInfo.getEmail()) && 
+				   CryptoUtil.comparePassword(authentificate.getPassword().getBytes("UTF-8"), 
+								   			  userInfo.getPassword().getBytes("UTF-8"))) {
+					isCorrectLoginAndPassword = true;
+				}
+			}
+			
 			AuthentificateResInfo result = new AuthentificateResInfo();
 			UserData userData = new UserData();
 			// Check if the user is in database
 			if(isInDataBase && isValidAccount && isCorrectLoginAndPassword) {
 				result.setSuccess((short)1);
-//				userData.setFirstName(userInfo.getFirstName());
-//				userData.setLastName(userInfo.getLastName());
-//				DateAdapter da = new DateAdapter();
-//				userData.setBirthDate(userInfo.getBirthOfDate());
-//				userData.setGender(userInfo.getGender());
-//				userData.setEmail(userInfo.getEmail());
-//				userData.setUserId(userInfo.getId());
-//				result.setUser(userData);
+				userData.setFirstName(userInfo.getFirstName());
+				userData.setLastName(userInfo.getLastName());
+				userData.setBirthDate(userInfo.getBirthOfDate());
+				userData.setGender(userInfo.getGender());
+				userData.setEmail(userInfo.getEmail());
+				userData.setIdUser(userInfo.getId());
+				result.setUser(userData);
 				return Response.ok(result, MediaType.APPLICATION_JSON).build();
 			}
 			else {
@@ -213,7 +231,6 @@ public class LoginService {
 		try {
 			boolean isInDataBase = false;
 			boolean isValidAccount = false;
-			
 			Map<String, Object> param = new HashMap<String, Object>();
 			param.put(User.EmailParameterName, email);
 			User userInfo = service.getSingleResult(User.class, User.GetByEmailQueryName, param);
@@ -233,8 +250,7 @@ public class LoginService {
 				params.put("EMAIL", email);
 				params.put("NEW_PASSWORD", readableTemporaryPassword);
 				mailUtility.sendEmail(mailUtility.PASSWORD_LOST, userInfo.getEmail(), params);
-				byte[] binTemporaryPassword = CryptoUtil.cryptSHA256(readableTemporaryPassword);
-				userInfo.setPassword(new String(binTemporaryPassword));
+				userInfo.setPassword(new String(CryptoUtil.cryptSHA256(readableTemporaryPassword), "UTF-8"));
 				service.commit(CommitOperation.Update, userInfo);
 				
 				return Response.ok("{result:1}", MediaType.TEXT_PLAIN).build();
