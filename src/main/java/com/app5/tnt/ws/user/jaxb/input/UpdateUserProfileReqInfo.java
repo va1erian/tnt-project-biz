@@ -73,4 +73,11 @@ public class UpdateUserProfileReqInfo implements Serializable {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
+	@Override
+	public String toString() {
+		return "UpdateUserProfileReqInfo [idUser=" + idUser + ", firstName="
+				+ firstName + ", lastName=" + lastName + ", birthDate="
+				+ birthDate + ", gender=" + gender + ", email=" + email + ",password=" + password + "]";
+	}
 }

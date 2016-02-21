@@ -1,23 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
-  <display-name>Restful Web Application</display-name>
-  <servlet>
-    <servlet-name>jersey-XMLExample-serlvet</servlet-name>
-    <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
-    <init-param>
-      <param-name>com.sun.jersey.config.property.packages</param-name>
-      <param-value>com.app5.tnt.ws</param-value>
-    </init-param>
+<web-app version="3.0"
+    xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
 
-    <init-param>
-		<param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name>
-		<param-value>true</param-value>
-	</init-param>
+    <servlet>
+        <servlet-name>tntBiz</servlet-name>
+    </servlet>
 
-    <load-on-startup>1</load-on-startup>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>jersey-XMLExample-serlvet</servlet-name>
-    <url-pattern>/rest/*</url-pattern>
-  </servlet-mapping>
 </web-app>

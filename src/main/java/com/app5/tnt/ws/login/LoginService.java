@@ -1,11 +1,9 @@
 package com.app5.tnt.ws.login;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -13,6 +11,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.app5.tnt.jpa.model.User;
 import com.app5.tnt.jpa.service.CommitOperation;
@@ -29,6 +30,8 @@ import com.app5.tnt.ws.login.jaxb.input.NewUserReqInfo;
 @Path("/login")
 public class LoginService {
 	
+	Logger log = LoggerFactory.getLogger(LoginService.class);
+	
 	private Service service;
 	private MailUtility mailUtility;;
 	
@@ -36,12 +39,15 @@ public class LoginService {
 		service = new Service();
 		mailUtility = MailUtility.getInstance();
 	}
+	
 	@GET
 	@Produces("application/json")
 	public Response sayHelloPlain( ) {
 		LoginUserInfo logineUserInfo = new LoginUserInfo();
 		logineUserInfo.setNom("SEMGHOUNI");
 		logineUserInfo.setPrenom("Younes");
+		
+		log.info("Hello route");
 		
 		return Response.ok(logineUserInfo, MediaType.APPLICATION_JSON).build();
 	}
@@ -82,7 +88,7 @@ public class LoginService {
 					String confirmationUrl = "http://toplel.xyz:8080" + "/confirmation" + "?data="  
 											+ new String(CryptoUtil.cryptSHA256(jsonToCrypt), "UTF-8");
 					emailParams.put("URL", confirmationUrl);
-					mailUtility.sendEmail(mailUtility.CONFIRM_EMAIL, userInfo.getEmail(), emailParams);
+					mailUtility.sendEmail(MailUtility.CONFIRM_EMAIL, userInfo.getEmail(), emailParams);
 					return Response.ok("{result:2}", MediaType.TEXT_PLAIN).build();
 				}
 			}
@@ -118,7 +124,7 @@ public class LoginService {
 										+ new String(CryptoUtil.cryptSHA256(jsonToCrypt), "UTF-8");
 				
 				emailParams.put("URL", confirmationUrl);
-				mailUtility.sendEmail(mailUtility.CONFIRM_EMAIL, newUserInDatabase.getEmail(), emailParams);
+				mailUtility.sendEmail(MailUtility.CONFIRM_EMAIL, newUserInDatabase.getEmail(), emailParams);
 			
 				return Response.ok("{result:1}", MediaType.TEXT_PLAIN).build();
 			}
@@ -249,7 +255,7 @@ public class LoginService {
 				Map<String, String> params = new HashMap<String, String>();
 				params.put("EMAIL", email);
 				params.put("NEW_PASSWORD", readableTemporaryPassword);
-				mailUtility.sendEmail(mailUtility.PASSWORD_LOST, userInfo.getEmail(), params);
+				mailUtility.sendEmail(MailUtility.PASSWORD_LOST, userInfo.getEmail(), params);
 				userInfo.setPassword(new String(CryptoUtil.cryptSHA256(readableTemporaryPassword), "UTF-8"));
 				service.commit(CommitOperation.Update, userInfo);
 				

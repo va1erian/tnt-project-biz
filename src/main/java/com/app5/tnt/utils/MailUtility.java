@@ -56,7 +56,7 @@ public class MailUtility {
 	private MailUtility() {
 		// Initialisation du template engine
 		ClassLoaderTemplateResolver resolver = new ClassLoaderTemplateResolver();
-		resolver.setTemplateMode("HTML5");
+		resolver.setTemplateMode("HTML");
 		resolver.setSuffix(".html");
 		templateEngine = new TemplateEngine();
 		templateEngine.setTemplateResolver(resolver);

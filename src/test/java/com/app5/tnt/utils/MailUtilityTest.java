@@ -17,7 +17,7 @@ public class MailUtilityTest {
 	/**
 	 * Test the case for confirm_inscription & password_lost template
 	 */
-	@Test
+	//@Test
 	public void mailUtilitySendEmailTestOk() {
 
 		HashMap<String, String> paramsValues = new HashMap<String, String>(1);
@@ -44,7 +44,7 @@ public class MailUtilityTest {
 	 * Test the case with a hashmap that does not exactly
 	 * match the parameters required
 	 */
-	@Test
+	//@Test
 	public void mailUtilitySendEmailTestHashMapNok() {
 
 		HashMap<String, String> paramsValues = new HashMap<String, String>(1);
@@ -61,7 +61,7 @@ public class MailUtilityTest {
 	 * Test the case with a template path that does not
 	 * match any existing template
 	 */
-	@Test
+	//@Test
 	public void mailUtilitySendEmailTestTemplatePathNok() {
 
 		HashMap<String, String> paramsValues = new HashMap<String, String>(1);

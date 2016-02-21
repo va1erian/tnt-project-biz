@@ -1,7 +1,5 @@
 package com.app5.tnt.ws.user;
 
-import java.text.SimpleDateFormat;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -12,6 +10,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.app5.tnt.jpa.model.User;
+import com.app5.tnt.jpa.service.CommitOperation;
 import com.app5.tnt.jpa.service.Service;
 import com.app5.tnt.ws.user.jaxb.input.UpdateUserProfileReqInfo;
 import com.app5.tnt.ws.user.jaxb.output.GetUserProfileResInfo;
@@ -58,39 +57,45 @@ public class UserService {
 		}
 	}
 	
+	/**
+	 * Attention, la date en JSON doit être au bon format (dd-MM-yyyy)
+	 * @param userProfile
+	 * @return
+	 */
 	@Path("/updateUserProfile")
 	@POST
+	@Produces(MediaType.TEXT_PLAIN)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response updateUserProfile(UpdateUserProfileReqInfo userProfile) {
-		
-		//Just to check the bindings conversion
-			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-			String formattedDate = formatter.format(userProfile.getBirthDate());
-			
-		//Log
-			System.out.println("userId    : "  +  userProfile.getIdUser());
-			System.out.println("FirstName : "  +  userProfile.getFirstName());
-			System.out.println("LastName  : "  +  userProfile.getLastName());
-			System.out.println("DofBirth  : "  +  formattedDate);
-			System.out.println("Email     : "  +  userProfile.getEmail());
-			System.out.println("Gender    : "  +  userProfile.getGender());
-			System.out.println("Password  : "  +  userProfile.getPassword());
-		
 		try	{
-			boolean isInDataBase = false;
+			if (userProfile == null) return Response.serverError().entity("JSON Error").build();
+			Service jpaServ = new Service();
+			Long longId = Long.parseLong(userProfile.getIdUser());
+			User userInfo = jpaServ.findById(User.class, longId);
+			boolean isInDataBase = (userInfo != null);
+			
 			// Check if the user exist in the database
 			if(isInDataBase) {
+				userInfo.setFirstName(userProfile.getFirstName());
+				userInfo.setLastName(userProfile.getLastName());
+				userInfo.setBirthOfDate(userProfile.getBirthDate());
+				userInfo.setGender(userProfile.getGender().charAt(0));
+				userInfo.setEmail(userProfile.getEmail());
+				jpaServ.commit(CommitOperation.Update, userInfo);
 				
-				return Response.ok("{update:true}", MediaType.APPLICATION_JSON).build();
+				return Response
+						.ok("{result:1}", 
+								MediaType.TEXT_PLAIN).build();
 			}
 			else {
-				return Response.ok("{update:true}", MediaType.APPLICATION_JSON).build();
+				return Response
+						.ok("{result:0}", 
+								MediaType.TEXT_PLAIN).build();
 			}
 		}
 		catch(Exception e){
-			System.out.println(e.getMessage());
-			return Response.serverError().entity("Error").build();
+			e.printStackTrace();
+			return Response.serverError().entity("Fatal Error").build();
 		}
 	}
-
 }
