@@ -1,4 +1,4 @@
-package com.app5.tnt.jpa.service;
+package integration.com.app5.tnt.jpa.service;
 
 import static org.junit.Assert.*;
 
@@ -6,9 +6,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.Test;
-
 import com.app5.tnt.jpa.model.User;
+import com.app5.tnt.jpa.service.CommitOperation;
+import com.app5.tnt.jpa.service.Service;
 
 public class ServiceTest {
 
@@ -32,12 +32,12 @@ public class ServiceTest {
 	//@Test
 	public void testCommitPersist() {
 		User u = new User();
-		u.setFirstName("Younes");
-		u.setPassword("jojo");
+		u.setFirstName("Moussa");
+		u.setPassword("SupprimeCetteLigneSTP");
 		u.setBirthOfDate(new Date());
-		u.setEmail("semghouni@gmail.com");
-		u.setGender('m');
-		u.setLastName("Semghouni");
+		u.setEmail("fakeAdr4@gmail.com");
+		u.setGender('M');
+		u.setLastName("Himri");
 		s.commit(CommitOperation.Persist, u);
 	}
 	

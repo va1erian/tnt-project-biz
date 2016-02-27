@@ -8,13 +8,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement
-public class ValidateUserReqInfo implements Serializable {
+public class ValidateEmailReqInfo implements Serializable {
 	
 	private static final long serialVersionUID = 5028942651663831659L;
 	
-	public ValidateUserReqInfo() {
-		
-	}
+	private String email;
+	private Long idUser;
+	
+	public ValidateEmailReqInfo() { }
 	
 	public String getEmail() {
 		return email;
@@ -22,6 +23,7 @@ public class ValidateUserReqInfo implements Serializable {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
 	public Long getidUser() {
 		return idUser;
 	}
@@ -29,6 +31,4 @@ public class ValidateUserReqInfo implements Serializable {
 		this.idUser = idUser;
 	}
 
-	private String email;
-	private Long idUser;
 }

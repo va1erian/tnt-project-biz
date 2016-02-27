@@ -16,18 +16,18 @@ import org.thymeleaf.context.Context;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
 /**
- * Class allowing to easily send HTML5 mail using the google account
+ * Class allowing to easily send HTML mail using the google account
  * tnt.project.polytech@gmail.com (can be changed by changing constants)
  * 
  * @author Robin Delgado
  *
  */
-public class MailUtility {
+public class MailUtil {
 
 	// Public fields
 	// Static template path
-	public final static String CONFIRM_EMAIL = "confirm_email";
-	public final static String PASSWORD_LOST = "password_lost";
+	public final static String CONFIRM_EMAIL = "./mailing/confirm_email";
+	public final static String PASSWORD_LOST = "./mailing/password_lost";
 
 	// Private fields
 	// Sender's information
@@ -41,9 +41,9 @@ public class MailUtility {
 	/**
 	 * Instance
 	 */
-	private static MailUtility instance = new MailUtility();
+	private static MailUtil instance = new MailUtil();
 
-	public static MailUtility getInstance() {
+	public static MailUtil getInstance() {
 		return instance;
 	}
 
@@ -53,7 +53,7 @@ public class MailUtility {
 	 * 
 	 * There is no parameter because we use constants instead
 	 */
-	private MailUtility() {
+	private MailUtil() {
 		// Initialisation du template engine
 		ClassLoaderTemplateResolver resolver = new ClassLoaderTemplateResolver();
 		resolver.setTemplateMode("HTML");

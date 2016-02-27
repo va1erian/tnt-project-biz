@@ -31,7 +31,7 @@ public class AddressService {
 
 	@Path("/list")
 	@GET
-	@Produces("application/json")
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response list(@QueryParam("idUser") String idUser) {
 		try {
 			// Init result object

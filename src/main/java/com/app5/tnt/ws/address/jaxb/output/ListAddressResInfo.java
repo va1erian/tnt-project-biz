@@ -9,13 +9,11 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-import com.app5.tnt.jpa.model.UserAddress;
-
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
     "data"
 })
-@XmlRootElement(name="")
+@XmlRootElement
 public class ListAddressResInfo implements Serializable{
 
 	/**

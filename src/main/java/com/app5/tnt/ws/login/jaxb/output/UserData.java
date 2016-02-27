@@ -10,10 +10,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import com.app5.tnt.ws.adapter.DateAdapter;
 
-
-
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlRootElement(name="user")
+@XmlRootElement
 public class UserData implements Serializable {
 
 	private static final long serialVersionUID = 5028942651663831659L;
@@ -26,9 +24,7 @@ public class UserData implements Serializable {
 	private String email;
 	private Long idUser;
 	
-	public UserData() {
-		
-	}
+	public UserData() { }
 	
 	public String getFirstName() {
 		return firstName;

@@ -12,10 +12,10 @@ import com.app5.tnt.ws.adapter.DateAdapter;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement
-public class NewUserReqInfo implements Serializable {
+public class CreateUserReqInfo implements Serializable {
 	
-
 	private static final long serialVersionUID = 5028942651663831659L;
+	
 	private String firstName;
 	private String lastName;
 	@XmlJavaTypeAdapter(DateAdapter.class)
@@ -24,40 +24,43 @@ public class NewUserReqInfo implements Serializable {
 	private String email;
 	private String password;
 	
-	public NewUserReqInfo() {
-		
-	}
-	
+	public CreateUserReqInfo() { }
+
 	public String getFirstName() {
 		return firstName;
 	}
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
+
 	public String getLastName() {
 		return lastName;
 	}
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
+
 	public Date getBirthDate() {
 		return birthDate;
 	}
 	public void setBirthDate(Date birthDate) {
 		this.birthDate = birthDate;
 	}
+
 	public Character getGender() {
 		return gender;
 	}
-	public void setGender(String Character) {
+	public void setGender(Character gender) {
 		this.gender = gender;
 	}
+
 	public String getEmail() {
 		return email;
 	}
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
 	public String getPassword() {
 		return password;
 	}

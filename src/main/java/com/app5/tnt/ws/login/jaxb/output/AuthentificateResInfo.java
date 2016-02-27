@@ -11,6 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class AuthentificateResInfo implements Serializable {
 
 	private static final long serialVersionUID = 5028942651663831659L;
+	
 	private short success;
 	private UserData user;
 	

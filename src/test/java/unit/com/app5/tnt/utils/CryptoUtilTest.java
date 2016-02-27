@@ -1,9 +1,10 @@
-package com.app5.tnt.utils;
+package unit.com.app5.tnt.utils;
 
 import static org.junit.Assert.*;
 
-import org.junit.Assert;
 import org.junit.Test;
+
+import com.app5.tnt.utils.CryptoUtil;
 
 public class CryptoUtilTest {
 

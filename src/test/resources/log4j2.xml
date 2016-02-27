@@ -8,8 +8,8 @@
   <Appenders>
   
       <RollingFile 	name="tnt" 
-      				fileName="${sys:catalina.home}/logs/tnt/latest.log"
-                 	filePattern="${sys:catalina.home}/logs/tnt/tnt-%d{MM-dd-yyyy}-%i.log">
+      				fileName="/test_logs/test_latest.log"
+                 	filePattern="/test_logs/tnt-%d{MM-dd-yyyy}-%i.log">
       
       	  <PatternLayout pattern="%d %-5p [%t] %C{2} (%F:%L) - %m%n"/>
 	      <Policies>

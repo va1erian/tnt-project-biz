@@ -11,15 +11,16 @@
 		Bonjour <br /> Ceci est un email de confirmation pour la création
 		d'un compte utilisateur sur le site TnT avec les informations
 		suivante:
+	</p>
 	<ul>
 		<li>Nom: <span th:text="${LASTNAME}"></span></li>
 		<li>Prénom: <span th:text="${FIRSTNAME}"></span></li>
 		<li>Email: <span th:text="${EMAIL}"></span></li>
 	</ul>
-
-	Pour valider votre inscription, merci de cliquer sur l'url suivante :
-	<a th:href="${URL}" th:text="${URL}"></a>
 	
+	<p>
+		Pour valider votre inscription, merci de cliquer sur l'url suivante :
+		<a th:href="${URL}" th:text="${URL}"></a>
 	</p>
 </body>
 </html>

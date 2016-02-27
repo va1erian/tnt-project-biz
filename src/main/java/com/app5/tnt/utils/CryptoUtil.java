@@ -1,14 +1,11 @@
 package com.app5.tnt.utils;
 
-import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 
 public class CryptoUtil {
 	
-	private static SecureRandom random = new SecureRandom();
 	private static String ALPHA_NUMERIC_STRING = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
 	
 	public static String generateRandomString(int size) {

@@ -19,13 +19,12 @@ import com.app5.tnt.jpa.model.User;
 import com.app5.tnt.jpa.service.CommitOperation;
 import com.app5.tnt.jpa.service.Service;
 import com.app5.tnt.utils.CryptoUtil;
-import com.app5.tnt.utils.MailUtility;
-import com.app5.tnt.ws.login.jaxb.LoginUserInfo;
+import com.app5.tnt.utils.MailUtil;
 import com.app5.tnt.ws.login.jaxb.input.AuthentificateReqInfo;
-import com.app5.tnt.ws.login.jaxb.input.ValidateUserReqInfo;
+import com.app5.tnt.ws.login.jaxb.input.ValidateEmailReqInfo;
 import com.app5.tnt.ws.login.jaxb.output.AuthentificateResInfo;
 import com.app5.tnt.ws.login.jaxb.output.UserData;
-import com.app5.tnt.ws.login.jaxb.input.NewUserReqInfo;
+import com.app5.tnt.ws.login.jaxb.input.CreateUserReqInfo;
 
 @Path("/login")
 public class LoginService {
@@ -33,30 +32,18 @@ public class LoginService {
 	Logger log = LoggerFactory.getLogger(LoginService.class);
 	
 	private Service service;
-	private MailUtility mailUtility;;
+	private MailUtil mailUtil;;
 	
 	public LoginService() {
 		service = new Service();
-		mailUtility = MailUtility.getInstance();
-	}
-	
-	@GET
-	@Produces("application/json")
-	public Response sayHelloPlain( ) {
-		LoginUserInfo logineUserInfo = new LoginUserInfo();
-		logineUserInfo.setNom("SEMGHOUNI");
-		logineUserInfo.setPrenom("Younes");
-		
-		log.info("Hello route");
-		
-		return Response.ok(logineUserInfo, MediaType.APPLICATION_JSON).build();
+		mailUtil = MailUtil.getInstance();
 	}
 	
 	@Path("/createUser")
 	@POST
 	@Produces(MediaType.TEXT_PLAIN)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response createUser(NewUserReqInfo newUser) {
+	public Response createUser(CreateUserReqInfo newUser) {
 		try {
 			boolean isInDataBase = false;
 			boolean validAccount = false;
@@ -88,7 +75,7 @@ public class LoginService {
 					String confirmationUrl = "http://toplel.xyz:8080" + "/confirmation" + "?data="  
 											+ new String(CryptoUtil.cryptSHA256(jsonToCrypt), "UTF-8");
 					emailParams.put("URL", confirmationUrl);
-					mailUtility.sendEmail(MailUtility.CONFIRM_EMAIL, userInfo.getEmail(), emailParams);
+					mailUtil.sendEmail(MailUtil.CONFIRM_EMAIL, userInfo.getEmail(), emailParams);
 					return Response.ok("{result:2}", MediaType.TEXT_PLAIN).build();
 				}
 			}
@@ -124,7 +111,7 @@ public class LoginService {
 										+ new String(CryptoUtil.cryptSHA256(jsonToCrypt), "UTF-8");
 				
 				emailParams.put("URL", confirmationUrl);
-				mailUtility.sendEmail(MailUtility.CONFIRM_EMAIL, newUserInDatabase.getEmail(), emailParams);
+				mailUtil.sendEmail(MailUtil.CONFIRM_EMAIL, newUserInDatabase.getEmail(), emailParams);
 			
 				return Response.ok("{result:1}", MediaType.TEXT_PLAIN).build();
 			}
@@ -136,11 +123,12 @@ public class LoginService {
 		}
 		
 	}
-	@Path("/validateUser")
+	
+	@Path("/validateEmail")
 	@POST
 	@Produces(MediaType.TEXT_PLAIN)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response validateUser(ValidateUserReqInfo validateUser) {
+	public Response validateEmail(ValidateEmailReqInfo validateUser) {
 		try {
 			boolean isInDataBase = false;
 			boolean validAccount = false;
@@ -177,6 +165,7 @@ public class LoginService {
 			return Response.serverError().entity("Error").build();
 		}
 	}
+	
 	@Path("/authentificate")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
@@ -229,6 +218,7 @@ public class LoginService {
 			return Response.serverError().entity("Error").build();
 		}
 	}
+	
 	@Path("/resetPassword")
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
@@ -255,7 +245,7 @@ public class LoginService {
 				Map<String, String> params = new HashMap<String, String>();
 				params.put("EMAIL", email);
 				params.put("NEW_PASSWORD", readableTemporaryPassword);
-				mailUtility.sendEmail(MailUtility.PASSWORD_LOST, userInfo.getEmail(), params);
+				mailUtil.sendEmail(MailUtil.PASSWORD_LOST, userInfo.getEmail(), params);
 				userInfo.setPassword(new String(CryptoUtil.cryptSHA256(readableTemporaryPassword), "UTF-8"));
 				service.commit(CommitOperation.Update, userInfo);
 				
