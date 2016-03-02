@@ -9,11 +9,10 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.app5.tnt.inject.Injector;
 import com.app5.tnt.jpa.model.User;
 import com.app5.tnt.jpa.service.CommitOperation;
 import com.app5.tnt.jpa.service.Service;
-import com.app5.tnt.jpa.service.ServiceFactory;
-import com.app5.tnt.jpa.service.ServiceImpl;
 import com.app5.tnt.ws.user.jaxb.input.UpdateUserProfileReqInfo;
 import com.app5.tnt.ws.user.jaxb.output.GetUserProfileResInfo;
 
@@ -21,7 +20,8 @@ import com.app5.tnt.ws.user.jaxb.output.GetUserProfileResInfo;
 public class UserService {
 	
 	
-	Service jpaServ = ServiceFactory.getDefaultService();
+	Service jpaServ = Injector.injectService(); //ServiceFactory.getDefaultService();
+	
 	@Path("/getUserProfile")
 	@GET
 	@Consumes("text/plain")
