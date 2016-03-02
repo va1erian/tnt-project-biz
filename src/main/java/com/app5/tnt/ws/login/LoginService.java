@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import com.app5.tnt.jpa.model.User;
 import com.app5.tnt.jpa.service.CommitOperation;
 import com.app5.tnt.jpa.service.Service;
+import com.app5.tnt.jpa.service.ServiceFactory;
 import com.app5.tnt.utils.CryptoUtil;
 import com.app5.tnt.utils.MailUtil;
 import com.app5.tnt.ws.login.jaxb.input.AuthentificateReqInfo;
@@ -35,7 +36,7 @@ public class LoginService {
 	private MailUtil mailUtil;;
 	
 	public LoginService() {
-		service = new Service();
+		service = ServiceFactory.getDefaultService();
 		mailUtil = MailUtil.getInstance();
 	}
 	

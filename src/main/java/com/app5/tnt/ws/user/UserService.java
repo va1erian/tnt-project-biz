@@ -12,19 +12,23 @@ import javax.ws.rs.core.Response;
 import com.app5.tnt.jpa.model.User;
 import com.app5.tnt.jpa.service.CommitOperation;
 import com.app5.tnt.jpa.service.Service;
+import com.app5.tnt.jpa.service.ServiceFactory;
+import com.app5.tnt.jpa.service.ServiceImpl;
 import com.app5.tnt.ws.user.jaxb.input.UpdateUserProfileReqInfo;
 import com.app5.tnt.ws.user.jaxb.output.GetUserProfileResInfo;
 
 @Path("/user")
 public class UserService {
 	
+	
+	Service jpaServ = ServiceFactory.getDefaultService();
 	@Path("/getUserProfile")
 	@GET
 	@Consumes("text/plain")
 	@Produces("application/json")
 	public Response getUserProfile(@QueryParam("userId") String userId) {
 		try	{
-			Service jpaServ = new Service();
+			
 			Long longId = Long.parseLong(userId);
 			User userInfo = jpaServ.findById(User.class, longId);
 			
@@ -69,7 +73,6 @@ public class UserService {
 	public Response updateUserProfile(UpdateUserProfileReqInfo userProfile) {
 		try	{
 			if (userProfile == null) return Response.serverError().entity("JSON Error").build();
-			Service jpaServ = new Service();
 			Long longId = Long.parseLong(userProfile.getIdUser());
 			User userInfo = jpaServ.findById(User.class, longId);
 			boolean isInDataBase = (userInfo != null);

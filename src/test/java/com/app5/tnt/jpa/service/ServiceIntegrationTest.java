@@ -1,4 +1,4 @@
-package integration.com.app5.tnt.jpa.service;
+package com.app5.tnt.jpa.service;
 
 import static org.junit.Assert.*;
 
@@ -8,11 +8,11 @@ import java.util.Map;
 
 import com.app5.tnt.jpa.model.User;
 import com.app5.tnt.jpa.service.CommitOperation;
-import com.app5.tnt.jpa.service.Service;
+import com.app5.tnt.jpa.service.ServiceImpl;
 
-public class ServiceTest {
+public class ServiceIntegrationTest {
 
-	static Service s = new Service("remote-server-test");
+	static ServiceImpl s = new ServiceImpl("remote-server-test");
 	/*
 	@Test
 	public void testGetNewEntityManager() {

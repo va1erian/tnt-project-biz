@@ -108,10 +108,10 @@
 						<id>default-test</id>
 						<configuration>
 							<includes>
-								<include>**/unit/**</include>
+								<include>**/*UnitTest.java</include>
 							</includes>
 							<excludes>
-								<exclude>**/integration/**</exclude>
+								<exclude>**/*IntegrationTest.java</exclude>
 							</excludes>
 						</configuration>
 					</execution>
@@ -123,10 +123,10 @@
 						</goals>
 						<configuration>
 							<includes>
-								<exclude>**/integration/**</exclude>
+								<exclude>**/*IntegrationTest.java</exclude>
 							</includes>
 							<excludes>
-								<include>**/unit/**</include>
+								<include>**/*UnitTest.java</include>
 							</excludes>
 						</configuration>
 					</execution>

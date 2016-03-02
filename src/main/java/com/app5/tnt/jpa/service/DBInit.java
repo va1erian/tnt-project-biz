@@ -11,7 +11,7 @@ public class DBInit {
 	@SuppressWarnings("deprecation")
 	public static void main(String[] args) {
 
-		Service service = new Service("remote-server-reset");
+		Service service = ServiceFactory.getDefaultService();
 		
 		User u1 = new User();
 		u1.setBirthOfDate(new Date(1092, 05, 10));

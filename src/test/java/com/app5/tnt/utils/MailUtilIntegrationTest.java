@@ -1,4 +1,4 @@
-package integration.com.app5.tnt.utils;
+package com.app5.tnt.utils;
 
 import static org.junit.Assert.*;
 
@@ -14,7 +14,7 @@ import com.app5.tnt.utils.MailUtil;
  * @author Robin
  *
  */
-public class MailUtilTest {
+public class MailUtilIntegrationTest {
 
 	/**
 	 * Test the case for confirm_inscription & password_lost template
