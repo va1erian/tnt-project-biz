@@ -1,6 +1,6 @@
 package com.app5.tnt.jpa.model;
 
-import java.util.Date;
+import java.util.Calendar;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -33,72 +33,128 @@ public class User {
 	private String lastName;
 	@Temporal(TemporalType.DATE)
 	@Column(name = "DATE_OF_BIRTH", nullable = false)
-	private Date birthOfDate;
+	private Calendar dateOfBirth;
 	@Column(name = "GENDER", nullable = false)
 	private Character gender;
-	@Column(name = "EMAIL", unique = true, length = 128)
+	@Column(name = "EMAIL", unique = true, length = 128, nullable = false )
 	private String email;
 	@Type(type="yes_no")
 	@Column(name = "EMAIL_VALIDATED", nullable = false)
-	private boolean emailValitated;
+	private boolean emailValidated = false;
 	@Column(name = "PHONE", length = 16, nullable = true)
 	private String phone;
 	@Column(length = 64, nullable = false)
 	private String password;
+	
+	
 	public Long getId() {
 		return id;
 	}
+
+
 	public void setId(Long id) {
 		this.id = id;
 	}
+
+
 	public String getFirstName() {
 		return firstName;
 	}
+
+
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
+
+
 	public String getLastName() {
 		return lastName;
 	}
+
+
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	public Date getBirthOfDate() {
-		return birthOfDate;
+
+
+	public Calendar getDateOfBirth() {
+		return dateOfBirth;
 	}
-	public void setBirthOfDate(Date birthOfDate) {
-		this.birthOfDate = birthOfDate;
+
+
+	public void setDateOfBirth(Calendar dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
 	}
+
+
 	public Character getGender() {
 		return gender;
 	}
+
+
 	public void setGender(Character gender) {
 		this.gender = gender;
 	}
+
+
 	public String getEmail() {
 		return email;
 	}
+
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
+
 	public boolean isEmailValidated() {
-		return emailValitated;
+		return emailValidated;
 	}
-	public void setEmailValitated(boolean emailValitated) {
-		this.emailValitated = emailValitated;
+
+
+	public void setEmailValidated(boolean emailValidated) {
+		this.emailValidated = emailValidated;
 	}
+
+
 	public String getPhone() {
 		return phone;
 	}
+
+
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
+
+
 	public String getPassword() {
 		return password;
 	}
+
+
 	public void setPassword(String password) {
 		this.password = password;
 	}
 
+
+	@Override
+	public boolean equals(Object obj){
+		if (obj ==  null || obj.getClass() != User.class ) return false;
+		User user = (User) obj ;
+		if (
+				id.longValue() == user.id.longValue()
+			&&	firstName.equals(user.firstName)
+			&&  lastName.equals(user.lastName)
+			&&	email.equals(user.email)
+			&&  gender.charValue() == user.gender.charValue()
+			&&  password.equals(user.password)
+			&&  dateOfBirth.get(Calendar.YEAR) == user.dateOfBirth.get(Calendar.YEAR)
+			&&  dateOfBirth.get(Calendar.MONTH) == user.dateOfBirth.get(Calendar.MONTH)
+			&&  dateOfBirth.get(Calendar.DAY_OF_MONTH) == user.dateOfBirth.get(Calendar.DAY_OF_MONTH)
+			&&  emailValidated == user.emailValidated
+			&&  ((phone == null && user.phone == null)|| phone.equals(user.phone))
+				)return true;
+		return false;
+	}
 	
 }

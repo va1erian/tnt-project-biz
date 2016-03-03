@@ -20,6 +20,7 @@ import com.app5.tnt.jpa.service.CommitOperation;
 import com.app5.tnt.jpa.service.Service;
 import com.app5.tnt.jpa.service.ServiceFactory;
 import com.app5.tnt.utils.CryptoUtil;
+import com.app5.tnt.utils.DateUtil;
 import com.app5.tnt.utils.MailUtil;
 import com.app5.tnt.ws.login.jaxb.input.AuthentificateReqInfo;
 import com.app5.tnt.ws.login.jaxb.input.ValidateEmailReqInfo;
@@ -84,8 +85,8 @@ public class LoginService {
 				// Create the new user in the database
 				User u = new User();
 				u.setEmail(newUser.getEmail());
-				u.setBirthOfDate(newUser.getBirthDate());
-				u.setEmailValitated(false);
+				u.setDateOfBirth(DateUtil.getCalendar(newUser.getBirthDate()));
+				u.setEmailValidated(false);
 				u.setFirstName(newUser.getFirstName());
 				u.setGender(newUser.getGender());
 				u.setLastName(newUser.getLastName());
@@ -152,7 +153,7 @@ public class LoginService {
 					return Response.ok("{result:0}", MediaType.TEXT_PLAIN).build();
 				}
 				else {
-					userInfo.setEmailValitated(true);
+					userInfo.setEmailValidated(true);
 					service.commit(CommitOperation.Update, userInfo);
 					return Response.ok("{result:1}", MediaType.TEXT_PLAIN).build();
 				}
@@ -200,7 +201,7 @@ public class LoginService {
 				result.setSuccess((short)1);
 				userData.setFirstName(userInfo.getFirstName());
 				userData.setLastName(userInfo.getLastName());
-				userData.setBirthDate(userInfo.getBirthOfDate());
+				userData.setBirthDate(userInfo.getDateOfBirth().getTime());
 				userData.setGender(userInfo.getGender());
 				userData.setEmail(userInfo.getEmail());
 				userData.setIdUser(userInfo.getId());

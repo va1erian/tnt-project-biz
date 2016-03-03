@@ -1,6 +1,7 @@
 package com.app5.tnt.jpa.service;
 
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import com.app5.tnt.jpa.model.Address;
 import com.app5.tnt.jpa.model.User;
@@ -14,25 +15,25 @@ public class DBInit {
 		Service service = ServiceFactory.getDefaultService();
 		
 		User u1 = new User();
-		u1.setBirthOfDate(new Date(1092, 05, 10));
+		u1.setDateOfBirth(new GregorianCalendar( 1892, 05, 10));
 		u1.setEmail("boumaaza@gmail.com");
 		u1.setFirstName("Kada");
 		u1.setGender('m');
 		u1.setLastName("Boumaaza");
 		u1.setPassword("me3zetichaba");
 		u1.setPhone("071253245");
-		u1.setEmailValitated(true);
+		u1.setEmailValidated(true);
 		service.commit(CommitOperation.Persist, u1);
 		
 		User u2 = new User();
-		u2.setBirthOfDate(new Date(1984, 05, 10));
+		u2.setDateOfBirth(new GregorianCalendar(1984, 05, 10));
 		u2.setEmail("bouh@gmail.com");
 		u2.setFirstName("Halouf");
 		u2.setGender('m');
 		u2.setLastName("kbir");
 		u2.setPassword("ghwwwit");
 		u2.setPhone("072253155");
-		u2.setEmailValitated(false);
+		u2.setEmailValidated(false);
 		service.commit(CommitOperation.Persist, u2);
 		
 		Address a1 = new Address();

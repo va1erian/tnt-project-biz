@@ -1,5 +1,7 @@
 package com.app5.tnt.ws.user;
 
+import java.util.Calendar;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -13,6 +15,7 @@ import com.app5.tnt.inject.Injector;
 import com.app5.tnt.jpa.model.User;
 import com.app5.tnt.jpa.service.CommitOperation;
 import com.app5.tnt.jpa.service.Service;
+import com.app5.tnt.utils.DateUtil;
 import com.app5.tnt.ws.user.jaxb.input.UpdateUserProfileReqInfo;
 import com.app5.tnt.ws.user.jaxb.output.GetUserProfileResInfo;
 
@@ -40,7 +43,7 @@ public class UserService {
 				user.setFirstName(userInfo.getFirstName());
 				user.setLastName(userInfo.getLastName());
 				//DateAdapter da = new DateAdapter();
-				user.setBirthDate(userInfo.getBirthOfDate());
+				user.setBirthDate(userInfo.getDateOfBirth().getTime());
 				user.setGender(userInfo.getGender().toString());
 				user.setEmail(userInfo.getEmail());
 				user.setId(userId);
@@ -81,7 +84,7 @@ public class UserService {
 			if(isInDataBase) {
 				userInfo.setFirstName(userProfile.getFirstName());
 				userInfo.setLastName(userProfile.getLastName());
-				userInfo.setBirthOfDate(userProfile.getBirthDate());
+				userInfo.setDateOfBirth(DateUtil.getCalendar(userProfile.getBirthDate()));
 				userInfo.setGender(userProfile.getGender().charAt(0));
 				userInfo.setEmail(userProfile.getEmail());
 				jpaServ.commit(CommitOperation.Update, userInfo);

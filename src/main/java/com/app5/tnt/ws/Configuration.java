@@ -17,14 +17,12 @@ import com.app5.tnt.jpa.service.ServiceFactory;
 public class Configuration extends ResourceConfig {
     public Configuration() {
         packages(true, "com.app5.tnt.ws");
-        System.out.println("fdp");
         
         // Context init 
         
         ContextManager.setContext(new Context() {
         	
 			public Service getService() {
-				System.out.println(" inject default service >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ");
 				return ServiceFactory.getDefaultService();
 			}
 		});
