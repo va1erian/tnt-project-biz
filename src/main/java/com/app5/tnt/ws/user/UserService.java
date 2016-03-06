@@ -23,7 +23,7 @@ import com.app5.tnt.ws.user.jaxb.output.GetUserProfileResInfo;
 public class UserService {
 	
 	
-	private Service jpaServ = Injector.injectService(); //ServiceFactory.getDefaultService();
+	private Service jpaServ = Injector.injectService();
 	
 	@Path("/getUserProfile")
 	@GET

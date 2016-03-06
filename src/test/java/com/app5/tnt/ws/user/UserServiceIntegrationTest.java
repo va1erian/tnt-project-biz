@@ -2,6 +2,8 @@ package com.app5.tnt.ws.user;
 
 import static org.junit.Assert.*;
 
+import javax.ws.rs.core.Response;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -30,14 +32,15 @@ public class UserServiceIntegrationTest {
 	@Test
 	public void testGetUserProfile() {
 		UserService service = new UserService();
-		GetUserProfileResInfo getten = service.getUserProfile(DBInit.u1.getId() + "")
-				.readEntity(GetUserProfileResInfo.class);
-		// assertEquals(getten.getBirthDate(),
-		// DBInit.u1.getDateOfBirth().getTime());
+		Response r = service.getUserProfile(DBInit.u1.getId() + "");
+		GetUserProfileResInfo getten = (GetUserProfileResInfo)r.getEntity();
+		
+		assertEquals(r.getStatus(), 200);
+		assertEquals(getten.getBirthDate(), DBInit.u1.getDateOfBirth().getTime());
 		assertEquals(getten.getFirstName(), DBInit.u1.getFirstName());
 		assertEquals(getten.getLastName(), DBInit.u1.getLastName());
 		assertEquals(getten.getEmail(), DBInit.u1.getEmail());
-		assertEquals(getten.getGender(), DBInit.u1.getGender());
+		assertEquals(getten.getGender(), DBInit.u1.getGender()+"");
 		assertEquals(getten.getId(), DBInit.u1.getId() + "");
 
 	}
