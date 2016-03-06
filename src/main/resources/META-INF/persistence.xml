@@ -6,6 +6,8 @@
 
 	<persistence-unit transaction-type="RESOURCE_LOCAL" name="remote-server" >
 		<class>com.app5.tnt.jpa.model.User</class>
+		<class>com.app5.tnt.jpa.model.Address</class>
+		<class>com.app5.tnt.jpa.model.UserAddress</class>
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
 			<property name="javax.persistence.jdbc.user" value="tnt" />
@@ -19,6 +21,8 @@
 	
 	<persistence-unit transaction-type="RESOURCE_LOCAL" name="remote-server-reset" >
 		<class>com.app5.tnt.jpa.model.User</class>
+		<class>com.app5.tnt.jpa.model.Address</class>
+		<class>com.app5.tnt.jpa.model.UserAddress</class>
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
 			<property name="javax.persistence.jdbc.user" value="tnt" />

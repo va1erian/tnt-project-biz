@@ -1,6 +1,6 @@
 package com.app5.tnt.jpa.model;
 
-import java.util.Date;
+import java.util.Calendar;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -32,10 +32,10 @@ public class UserAddress {
 	private Address address;
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="START_DATE", nullable=false)
-	private Date startDate;
+	private Calendar startDate;
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="END_DdATE", nullable=true)
-	private Date endDate;
+	private Calendar endDate;
 	public Long getId() {
 		return id;
 	}
@@ -60,16 +60,16 @@ public class UserAddress {
 	public void setAddress(Address address) {
 		this.address = address;
 	}
-	public Date getStartDate() {
+	public Calendar getStartDate() {
 		return startDate;
 	}
-	public void setStartDate(Date startDate) {
+	public void setStartDate(Calendar startDate) {
 		this.startDate = startDate;
 	}
-	public Date getEndDate() {
+	public Calendar getEndDate() {
 		return endDate;
 	}
-	public void setEndDate(Date endDate) {
+	public void setEndDate(Calendar endDate) {
 		this.endDate = endDate;
 	}
 	
