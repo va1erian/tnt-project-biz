@@ -22,8 +22,8 @@ public class Address {
 	private String formatedAddress ;
 	@Column(name="GPS_LATITUDE", nullable=true)
 	private Double gpsLatitude;
-	@Column(name="GPS_lENGITUDE", nullable=true)
-	private Double gpsLengitude;
+	@Column(name="GPS_LONGITUDE", nullable=true)
+	private Double gpsLongitude;
 	
 	public Long getId() {
 		return id;
@@ -62,11 +62,11 @@ public class Address {
 	public void setGpsLatitude(Double gpsLatitude) {
 		this.gpsLatitude = gpsLatitude;
 	}
-	public Double getGpsLengitude() {
-		return gpsLengitude;
+	public Double getGpsLongitude() {
+		return gpsLongitude;
 	}
-	public void setGpsLengitude(Double gpsLengitude) {
-		this.gpsLengitude = gpsLengitude;
+	public void setGpsLongitude(Double gpsLengitude) {
+		this.gpsLongitude = gpsLengitude;
 	}
 
 }

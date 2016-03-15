@@ -1,32 +1,22 @@
 package com.app5.tnt.ws.user;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.*; 
 
 import javax.ws.rs.core.Response;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.app5.tnt.inject.Context;
-import com.app5.tnt.inject.ContextManager;
 import com.app5.tnt.jpa.service.DBInit;
-import com.app5.tnt.jpa.service.Service;
-import com.app5.tnt.jpa.service.ServiceTestFactory;
 import com.app5.tnt.ws.user.jaxb.output.GetUserProfileResInfo;
+
+import test.util.TestContextInitialisator;
 
 public class UserServiceIntegrationTest {
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-
-		if (ContextManager.contextNull()) {
-			ContextManager.setContext(new Context() {
-				public Service getService() {
-					return ServiceTestFactory.getIntegrationTesService();
-				}
-			});
-			DBInit.fillDB(ServiceTestFactory.getIntegrationTesService());
-		}
+		TestContextInitialisator.initContext();
 	}
 
 	@Test

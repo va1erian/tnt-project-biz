@@ -14,6 +14,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.app5.tnt.inject.Injector;
 import com.app5.tnt.jpa.model.Address;
 import com.app5.tnt.jpa.model.User;
 import com.app5.tnt.jpa.model.UserAddress;
@@ -32,7 +33,7 @@ import com.app5.tnt.ws.address.jaxb.output.ListAddressResInfo;
 public class AddressService {
 
 	// Init JPA service
-	Service s = ServiceFactory.getDefaultService();
+	private Service s = Injector.injectService();
 	
 	@Path("/list")
 	@GET
@@ -59,7 +60,7 @@ public class AddressService {
 				ad.setFormattedAddress(userAddress.getAddress()
 						.getFormatedAddress());
 				ad.setGpsLatitude(userAddress.getAddress().getGpsLatitude());
-				ad.setGpsLongitude(userAddress.getAddress().getGpsLengitude());
+				ad.setGpsLongitude(userAddress.getAddress().getGpsLongitude());
 
 				data.add(ad);
 			}
@@ -122,7 +123,7 @@ public class AddressService {
 			newAddress.setFormatedAddress(addressToAdd.getFormattedAddress());
 			newAddress.setPostalCode(addressToAdd.getPostalCode());
 			newAddress.setGpsLatitude(addressToAdd.getGpsLatitude());
-			newAddress.setGpsLengitude(addressToAdd.getGpsLongitude());
+			newAddress.setGpsLongitude(addressToAdd.getGpsLongitude());
 
 			UserAddress newUserAddress = new UserAddress();
 			newUserAddress.setUser(u);

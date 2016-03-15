@@ -15,6 +15,7 @@ import javax.ws.rs.core.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.app5.tnt.inject.Injector;
 import com.app5.tnt.jpa.model.User;
 import com.app5.tnt.jpa.service.CommitOperation;
 import com.app5.tnt.jpa.service.Service;
@@ -37,7 +38,7 @@ public class LoginService {
 	private MailUtil mailUtil;;
 	
 	public LoginService() {
-		service = ServiceFactory.getDefaultService();
+		service = Injector.injectService();
 		mailUtil = MailUtil.getInstance();
 	}
 	
