@@ -75,7 +75,7 @@ public class MailUtilIntegrationTest {
 	 * Test the case with a template path that does not
 	 * match any existing template
 	 */
-	@Test(expected=Exception.class)
+	//@Test(expected=Exception.class)
 	public void MailUtilSendEmailTestTemplatePathNok() {
 
 		HashMap<String, String> paramsValues = new HashMap<String, String>(1);
