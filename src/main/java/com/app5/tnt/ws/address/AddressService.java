@@ -20,8 +20,6 @@ import com.app5.tnt.jpa.model.User;
 import com.app5.tnt.jpa.model.UserAddress;
 import com.app5.tnt.jpa.service.CommitOperation;
 import com.app5.tnt.jpa.service.Service;
-import com.app5.tnt.jpa.service.ServiceFactory;
-import com.app5.tnt.jpa.service.ServiceImpl;
 import com.app5.tnt.utils.NumericUtil;
 import com.app5.tnt.ws.address.jaxb.input.AddAddressNestedReqInfo;
 import com.app5.tnt.ws.address.jaxb.input.AddAddressReqInfo;

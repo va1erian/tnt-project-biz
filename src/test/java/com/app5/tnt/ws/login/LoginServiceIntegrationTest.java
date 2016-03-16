@@ -3,7 +3,6 @@ package com.app5.tnt.ws.login;
 import static org.junit.Assert.*;
 
 import org.junit.BeforeClass;
-import org.junit.Test;
 
 public class LoginServiceIntegrationTest {
 

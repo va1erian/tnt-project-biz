@@ -1,7 +1,5 @@
 package com.app5.tnt.ws.user;
 
-import java.util.Calendar;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
