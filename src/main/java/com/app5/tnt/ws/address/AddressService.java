@@ -73,7 +73,6 @@ public class AddressService {
 		}
 	}
 
-	// TODO Robin finir
 	@Path("/add")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
@@ -128,9 +127,7 @@ public class AddressService {
 			UserAddress newUserAddress = new UserAddress();
 			newUserAddress.setUser(u);
 			newUserAddress.setAddress(newAddress);
-
-			// TODO: Vérifier avec Younes et Nabil: en input on a pas de "name"
-			// qu'il faudrait setter à cette UserAddress ?
+			newUserAddress.setName(addAddressReqInfo.getName());
 
 			// Adding it
 			s.commit(CommitOperation.Persist, newUserAddress);

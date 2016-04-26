@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = { "idUser", "addrUser" })
+@XmlType(name = "", propOrder = { "idUser", "name" ,"addrUser" })
 @XmlRootElement(name = "")
 public class AddAddressReqInfo implements Serializable {
 
@@ -19,6 +19,7 @@ public class AddAddressReqInfo implements Serializable {
 
 	private Integer idUser;
 	private AddAddressNestedReqInfo addrUser;
+	private String name;
 
 	public Integer getIdUser() {
 		return idUser;
@@ -38,6 +39,14 @@ public class AddAddressReqInfo implements Serializable {
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 }
