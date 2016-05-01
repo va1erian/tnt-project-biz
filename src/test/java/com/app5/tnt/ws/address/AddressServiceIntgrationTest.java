@@ -25,7 +25,7 @@ public class AddressServiceIntgrationTest {
 	}
 	
 	@Test
-	public void testList_UserExqis_manyAddresses() {
+	public void testList_UserExsis_manyAddresses() {
 		List<Address> expected = new ArrayList<Address>();
 		expected.add(DBInit.a1);
 		expected.add(DBInit.a3);
@@ -53,7 +53,7 @@ public class AddressServiceIntgrationTest {
 	}
 	
 	@Test
-	public void testList_UserExqist_noAddress() {
+	public void testList_UserExsist_noAddress() {
 		
 		String input = DBInit.u2.getId()+"";
 		AddressService service = new AddressService();
@@ -66,7 +66,7 @@ public class AddressServiceIntgrationTest {
 	}
 	
 	@Test
-	public void testList_UserExqist_oneAddresse() {
+	public void testList_UserExsist_oneAddresse() {
 		List<Address> expected = new ArrayList<Address>();
 		expected.add(DBInit.a5);
 		
