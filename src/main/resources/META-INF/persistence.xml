@@ -8,6 +8,8 @@
 		<class>com.app5.tnt.jpa.model.User</class>
 		<class>com.app5.tnt.jpa.model.Address</class>
 		<class>com.app5.tnt.jpa.model.UserAddress</class>
+		<class>com.app5.tnt.jpa.model.Journey</class>
+		<class>com.app5.tnt.jpa.model.UserJourney</class>
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
 			<property name="javax.persistence.jdbc.user" value="tnt" />

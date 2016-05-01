@@ -25,7 +25,7 @@ public class UserAddress {
 	@Column(name="NAME", length = 32, nullable=false)
 	private String name;
 	//@Column(name="USER", nullable=false)
-	@ManyToOne
+	@ManyToOne 
 	private User user;
 	//@Column(name="ADDRESS", nullable=false)
 	@ManyToOne
